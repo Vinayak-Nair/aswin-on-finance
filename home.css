@@ -1,0 +1,199 @@
+/* ========================================
+   CSS Variables & Reset
+   ======================================== */
+:root {
+    --color-bg: #ffffff;
+    --color-text-primary: #222221;
+    --color-text-secondary: #898683;
+    --color-button-bg: #160F0C;
+    --color-button-text: #ffffff;
+    --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    overflow-x: hidden;
+}
+
+/* ========================================
+   Hero Section
+   ======================================== */
+.home-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.hero-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12vh;
+    /* Push content down slightly like Duna */
+    position: relative;
+    z-index: 10;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 900px;
+    padding: 0 2rem;
+    z-index: 20;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    /* Large scale */
+    font-weight: 400;
+    /* Regular weight like Duna */
+    color: var(--color-text-primary);
+    letter-spacing: -0.04em;
+    /* Tight negative tracking */
+    line-height: 1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+}
+
+/* CTA Button */
+.hero-cta-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-button-text);
+    background-color: var(--color-button-bg);
+    text-decoration: none;
+    border-radius: 999px;
+    /* Pill shape */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* ========================================
+   Background Illustration
+   ======================================== */
+.hero-background {
+    position: fixed;
+    /* Fixed to keep it stable */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-image-wrapper {
+    width: 100%;
+    height: 100%;
+    /* Gradient mask to fade image to white at bottom - Duna style */
+    mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 0.5) 70%,
+            rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 1) 40%,
+            rgba(0, 0, 0, 0.5) 70%,
+            rgba(0, 0, 0, 0) 100%);
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.9;
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (min-width: 1200px) {
+    .hero-title {
+        font-size: 5.5rem;
+        /* Even larger on big screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+    }
+
+    .hero-section {
+        padding-top: 15vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-section {
+        padding-top: 20vh;
+    }
+}
