@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAGR Calculator | Aswin on Finance</title>
+    <meta name="description" content="Calculate the Compound Annual Growth Rate of your investments.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/calculator.css">
+</head>
+
+<body>
+    <div class="calculator-container">
+        <header class="calc-header">
+            <a href="../../index.html" class="back-link">← Back to Home</a>
+            <h1 class="calc-title">CAGR Calculator</h1>
+            <p class="calc-subtitle">Calculate the compound annual growth rate of your investments</p>
+        </header>
+
+        <main class="calc-main">
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label for="initial-value">Initial Investment</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">₹</span>
+                        <input type="number" id="initial-value" value="100000" min="1000" step="1000">
+                    </div>
+                    <input type="range" id="initial-value-range" min="1000" max="10000000" step="1000" value="100000">
+                </div>
+
+                <div class="input-group">
+                    <label for="final-value">Final Value</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">₹</span>
+                        <input type="number" id="final-value" value="200000" min="1000" step="1000">
+                    </div>
+                    <input type="range" id="final-value-range" min="1000" max="100000000" step="1000" value="200000">
+                </div>
+
+                <div class="input-group">
+                    <label for="time-period">Time Period</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="time-period" value="5" min="1" max="50" step="1">
+                        <span class="input-suffix">years</span>
+                    </div>
+                    <input type="range" id="time-period-range" min="1" max="50" step="1" value="5">
+                </div>
+            </div>
+
+            <div class="calc-results">
+                <div class="result-card cagr-result">
+                    <div class="cagr-display">
+                        <span class="cagr-label">CAGR</span>
+                        <span class="cagr-value" id="cagr-value">14.87%</span>
+                    </div>
+                    <p class="cagr-description">Your investment grew at a compound annual rate of <strong
+                            id="cagr-inline">14.87%</strong> per year.</p>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-row">
+                        <span class="result-label">Initial Investment</span>
+                        <span class="result-value" id="display-initial">₹1,00,000</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Final Value</span>
+                        <span class="result-value" id="display-final">₹2,00,000</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Total Growth</span>
+                        <span class="result-value highlight" id="total-growth">₹1,00,000</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="calc-footer">
+            <p class="disclaimer">CAGR represents the mean annual growth rate assuming profits are reinvested.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
