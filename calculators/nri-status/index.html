@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRI Status Calculator | Aswin on Finance</title>
+    <meta name="description"
+        content="Determine your NRI residential status for Indian tax purposes. Find out if you're NRI, ROR, or RNOR based on your days in India.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="calculator-container">
+        <!-- Header -->
+        <header class="calc-header">
+            <a href="../../index.html" class="back-link">← Back to Home</a>
+            <h1 class="calc-title">NRI Status Calculator</h1>
+            <p class="calc-subtitle">Find your residential status for FY 2024-25</p>
+
+            <!-- Terminology Help -->
+            <div class="terminology-help">
+                <button type="button" class="help-toggle" onclick="toggleHelp()">
+                    <span class="help-icon">?</span>
+                    <span>What do NRI, ROR, RNOR mean?</span>
+                </button>
+                <div class="help-content" id="help-content">
+                    <div class="term">
+                        <strong>NRI</strong> — Non-Resident Indian
+                        <p>A person who doesn't meet the residency criteria. Only Indian income is taxed.</p>
+                    </div>
+                    <div class="term">
+                        <strong>ROR</strong> — Resident and Ordinarily Resident
+                        <p>A person who qualifies as resident and has been in India regularly. Global income is taxed.
+                        </p>
+                    </div>
+                    <div class="term">
+                        <strong>RNOR</strong> — Resident but Not Ordinarily Resident
+                        <p>A transitional status between NRI and ROR. Indian income is taxed, foreign income generally
+                            isn't.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Calculator Form -->
+        <main class="calc-main">
+            <form id="nri-calculator" class="calc-form">
+
+                <!-- Step 1: 182 days in current FY -->
+                <div class="calc-step active" data-step="1">
+                    <div class="step-indicator">Question 1</div>
+                    <h2 class="step-question">Did you stay in India for 182 days or more during FY 2024-25?</h2>
+                    <p class="step-hint">April 1, 2024 to March 31, 2025</p>
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="q1-182-days" value="yes" required>
+                            <span class="option-content">
+                                <span class="option-title">Yes</span>
+                                <span class="option-desc">I stayed 182 days or more</span>
+                            </span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q1-182-days" value="no">
+                            <span class="option-content">
+                                <span class="option-title">No</span>
+                                <span class="option-desc">I stayed less than 182 days</span>
+                            </span>
+                        </label>
+                    </div>
+                    <button type="button" class="btn-next" onclick="handleStep1()">Continue</button>
+                </div>
+
+                <!-- Step 2: Indian citizen/PIO abroad -->
+                <div class="calc-step" data-step="2">
+                    <div class="step-indicator">Question 2</div>
+                    <h2 class="step-question">Are you an Indian citizen or Person of Indian Origin living abroad?</h2>
+                    <p class="step-hint">This affects the residency threshold rules</p>
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="q2-citizen-abroad" value="yes" required>
+                            <span class="option-content">
+                                <span class="option-title">Yes</span>
+                                <span class="option-desc">I am an Indian citizen/PIO living outside India</span>
+                            </span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q2-citizen-abroad" value="no">
+                            <span class="option-content">
+                                <span class="option-title">No</span>
+                                <span class="option-desc">I am a foreign citizen or live in India</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-back" onclick="goToStep(1)">Back</button>
+                        <button type="button" class="btn-next" onclick="handleStep2()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: 60 days + 365 days rule (for non-citizen abroad) -->
+                <div class="calc-step" data-step="3">
+                    <div class="step-indicator">Question 3</div>
+                    <h2 class="step-question">Did you stay in India for 60+ days this year AND 365+ days in the last 4
+                        years?</h2>
+                    <p class="step-hint">Both conditions must be met</p>
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="q3-60-365" value="yes" required>
+                            <span class="option-content">
+                                <span class="option-title">Yes</span>
+                                <span class="option-desc">Both conditions apply to me</span>
+                            </span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q3-60-365" value="no">
+                            <span class="option-content">
+                                <span class="option-title">No</span>
+                                <span class="option-desc">One or both conditions don't apply</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-back" onclick="goToStep(2)">Back</button>
+                        <button type="button" class="btn-next" onclick="handleStep3()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: High income check (for citizen abroad) -->
+                <div class="calc-step" data-step="4">
+                    <div class="step-indicator">Question 3</div>
+                    <h2 class="step-question">Is your Indian income more than ₹15 lakhs per year?</h2>
+                    <p class="step-hint">This affects the 120-day threshold rule</p>
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="q4-high-income" value="yes" required>
+                            <span class="option-content">
+                                <span class="option-title">Yes</span>
+                                <span class="option-desc">My Indian income exceeds ₹15 lakhs</span>
+                            </span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q4-high-income" value="no">
+                            <span class="option-content">
+                                <span class="option-title">No</span>
+                                <span class="option-desc">My Indian income is ₹15 lakhs or less</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-back" onclick="goToStep(2)">Back</button>
+                        <button type="button" class="btn-next" onclick="handleStep4()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: 120 days check (for high income citizen abroad) -->
+                <div class="calc-step" data-step="5">
+                    <div class="step-indicator">Question 4</div>
+                    <h2 class="step-question">Did you stay in India for 120+ days this year AND 365+ days in the last 4
+                        years?</h2>
+                    <p class="step-hint">Both conditions must be met</p>
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="q5-120-365" value="yes" required>
+                            <span class="option-content">
+                                <span class="option-title">Yes</span>
+                                <span class="option-desc">Both conditions apply to me</span>
+                            </span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="q5-120-365" value="no">
+                            <span class="option-content">
+                                <span class="option-title">No</span>
+                                <span class="option-desc">One or both conditions don't apply</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-back" onclick="goToStep(4)">Back</button>
+                        <button type="button" class="btn-next" onclick="handleStep5()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: RNOR check - 729 days in 7 years -->
+                <div class="calc-step" data-step="6">
+                    <div class="step-indicator">Final Question</div>
+                    <h2 class="step-question">You're a Resident! Let's check if you're ROR or RNOR.</h2>
+                    <p class="step-hint">Answer the following to determine your exact status</p>
+
+                    <div class="rnor-question">
+                        <p class="rnor-label">Were you a Non-Resident in 9 or more of the last 10 years?</p>
+                        <div class="option-group">
+                            <label class="option-card">
+                                <input type="radio" name="q6-nri-9-years" value="yes" required>
+                                <span class="option-content">
+                                    <span class="option-title">Yes</span>
+                                </span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="q6-nri-9-years" value="no">
+                                <span class="option-content">
+                                    <span class="option-title">No</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="rnor-question">
+                        <p class="rnor-label">Did you stay in India for 729 days or less in the last 7 years?</p>
+                        <div class="option-group">
+                            <label class="option-card">
+                                <input type="radio" name="q6-729-days" value="yes" required>
+                                <span class="option-content">
+                                    <span class="option-title">Yes</span>
+                                </span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="q6-729-days" value="no">
+                                <span class="option-content">
+                                    <span class="option-title">No</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-back" onclick="goToStep(1)">Back</button>
+                        <button type="button" class="btn-next" onclick="handleRNOR()">Get Result</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Result -->
+            <div id="result" class="result-container hidden">
+                <div class="result-card">
+                    <div class="result-status">
+                        <span id="status-badge" class="status-badge"></span>
+                    </div>
+                    <h2 id="result-title" class="result-title"></h2>
+                    <p id="result-description" class="result-description"></p>
+
+                    <div class="result-details">
+                        <h3>Tax Implications</h3>
+                        <ul id="tax-implications"></ul>
+                    </div>
+
+                    <button type="button" class="btn-restart" onclick="restartCalculator()">Calculate Again</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="calc-footer">
+            <p class="disclaimer">This calculator provides an estimate based on Section 6 of the Income Tax Act, 1961.
+                Please consult a tax professional for personalized advice.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
