@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Loan EMI Calculator | Aswin on Finance</title>
+    <meta name="description"
+        content="Calculate your monthly car loan EMI based on loan amount, interest rate, and tenure.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/calculator.css">
+</head>
+
+<body>
+    <div class="calculator-container">
+        <header class="calc-header">
+            <a href="../../index.html" class="back-link">← Back to Home</a>
+            <h1 class="calc-title">Car Loan EMI Calculator</h1>
+            <p class="calc-subtitle">Calculate your monthly car loan EMI</p>
+        </header>
+
+        <main class="calc-main">
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label for="loan-amount">Loan Amount</label>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">₹</span>
+                        <input type="number" id="loan-amount" value="800000" min="50000" step="10000">
+                    </div>
+                    <input type="range" id="loan-amount-range" min="50000" max="5000000" step="10000" value="800000">
+                </div>
+
+                <div class="input-group">
+                    <label for="interest-rate">Interest Rate (p.a.)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="interest-rate" value="9" min="5" max="20" step="0.1">
+                        <span class="input-suffix">%</span>
+                    </div>
+                    <input type="range" id="interest-rate-range" min="5" max="20" step="0.1" value="9">
+                </div>
+
+                <div class="input-group">
+                    <label for="loan-tenure">Loan Tenure</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="loan-tenure" value="5" min="1" max="7" step="1">
+                        <span class="input-suffix">years</span>
+                    </div>
+                    <input type="range" id="loan-tenure-range" min="1" max="7" step="1" value="5">
+                </div>
+            </div>
+
+            <div class="calc-results">
+                <div class="result-card emi-result">
+                    <div class="emi-display">
+                        <span class="emi-label">Monthly EMI</span>
+                        <span class="emi-value" id="emi-value">₹16,607</span>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-row">
+                        <span class="result-label">Principal Amount</span>
+                        <span class="result-value" id="principal-amount">₹8,00,000</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Total Interest</span>
+                        <span class="result-value" id="total-interest">₹1,96,427</span>
+                    </div>
+                    <div class="result-row total">
+                        <span class="result-label">Total Amount</span>
+                        <span class="result-value" id="total-amount">₹9,96,427</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-bar">
+                        <div class="chart-invested" id="chart-principal"></div>
+                        <div class="chart-returns" id="chart-interest" style="background: #dc2626;"></div>
+                    </div>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color invested"></span> Principal</span>
+                        <span class="legend-item"><span class="legend-color" style="background: #dc2626;"></span>
+                            Interest</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="calc-footer">
+            <p class="disclaimer">EMI calculated using standard reducing balance method. Actual EMI may vary.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
