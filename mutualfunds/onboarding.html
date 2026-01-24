@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Onboarding | Aswin on Finance</title>
+    <meta name="description" content="Begin your mutual fund investment journey as an NRI or OCI.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="onboarding.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back
+        </a>
+        <div class="progress-indicator">
+            <div class="progress-step active">1</div>
+            <div class="progress-line"></div>
+            <div class="progress-step">2</div>
+            <div class="progress-line"></div>
+            <div class="progress-step">3</div>
+            <div class="progress-line"></div>
+            <div class="progress-step">4</div>
+        </div>
+    </header>
+
+    <main class="onboarding-container">
+        <!-- Step 1: Choose Status -->
+        <section class="onboarding-step" id="step-1">
+            <div class="step-content">
+                <span class="step-label">Step 1 of 3</span>
+                <h1 class="step-title">What's your residency status?</h1>
+                <p class="step-description">This helps us understand which documents and investment routes apply to you.
+                </p>
+
+                <div class="status-options">
+                    <button class="status-card" data-status="nri" onclick="selectStatus('nri')">
+                        <div class="status-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10" />
+                                <path
+                                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                            </svg>
+                        </div>
+                        <h3>NRI</h3>
+                        <p>Non-Resident Indian with Indian passport</p>
+                    </button>
+
+                    <button class="status-card" data-status="oci" onclick="selectStatus('oci')">
+                        <div class="status-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="3" y="4" width="18" height="16" rx="2" />
+                                <path d="M3 10h18" />
+                                <circle cx="8" cy="15" r="2" />
+                            </svg>
+                        </div>
+                        <h3>OCI</h3>
+                        <p>Overseas Citizen of India cardholder</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Document Checklist (NRI) -->
+        <section class="onboarding-step hidden" id="step-2-nri">
+            <div class="step-content">
+                <span class="step-label">Step 2 of 3</span>
+                <h1 class="step-title">Documents you'll need</h1>
+                <p class="step-description">Here's what's typically required to open a mutual fund account as an NRI.
+                    Don't worry if you don't have everything ready — we'll guide you.</p>
+
+                <div class="documents-list">
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="3" y="4" width="18" height="16" rx="2" />
+                                <path d="M7 8h10M7 12h6" />
+                            </svg>
+                        </div>
+                        <div class="document-info">
+                            <h4>PAN Card</h4>
+                            <p>Your Indian Permanent Account Number — essential for all investments in India. If you
+                                don't have one, we can help you apply.</p>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                            </svg>
+                        </div>
+                        <div class="document-info">
+                            <h4>Last 2 months bank statement</h4>
+                            <p>From your NRE or NRO account. This confirms your account details and recent transaction
+                                history for KYC purposes.</p>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="3" y="4" width="18" height="16" rx="2" />
+                                <circle cx="12" cy="11" r="3" />
+                                <path d="M7 17h10" />
+                            </svg>
+                        </div>
+                        <div class="document-info">
+                            <h4>Indian passport</h4>
+                            <p>Valid or expired Indian passport to establish your citizenship. The passport number is
+                                used for identity verification.</p>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </div>
+                        <div class="document-info">
+                            <h4>Overseas address proof</h4>
+                            <p>Utility bill, bank statement, or lease agreement from your country of residence — to
+                                confirm your current overseas address.</p>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <rect x="3" y="4" width="18" height="16" rx="2" />
+                                <path d="M3 10h18" />
+                                <path d="M8 14h2M8 17h4" />
+                            </svg>
+                        </div>
+                        <div class="document-info">
+                            <h4>National ID from country of residence</h4>
+                            <p>Driver's license, national ID card, or equivalent government-issued ID from where you
+                                currently live.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acknowledgement-section">
+                    <label class="acknowledgement-checkbox">
+                        <input type="checkbox" id="docs-acknowledgement" onchange="toggleContinue()">
+                        <span class="checkmark"></span>
+                        <span class="acknowledgement-text">I have all the documents listed above, or I'm ready to
+                            proceed and will gather any missing ones.</span>
+                    </label>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-secondary" onclick="goBack()">Back</button>
+                    <button class="btn-primary" id="continue-btn" disabled onclick="goToStep3()">Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: OCI (Coming Soon) -->
+        <section class="onboarding-step hidden" id="step-2-oci">
+            <div class="step-content">
+                <span class="step-label">Step 2 of 3</span>
+                <h1 class="step-title">OCI onboarding coming soon</h1>
+                <p class="step-description">We're still building the OCI-specific flow. For now, please reach out to us
+                    directly and we'll guide you through the process.</p>
+
+                <div class="coming-soon-card">
+                    <p>In the meantime, you can email us at <strong>hello@aswinonfinance.com</strong> with your details
+                        and we'll get back to you within 24 hours.</p>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-secondary" onclick="goBack()">Back</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Share Your Details -->
+        <section class="onboarding-step hidden" id="step-3">
+            <div class="step-content">
+                <span class="step-label">Step 3 of 4</span>
+                <h1 class="step-title">Share a few details</h1>
+                <p class="step-description">Help us understand your investment goals. This takes just a couple of
+                    minutes.</p>
+
+                <div class="details-form">
+                    <!-- Monthly Investment -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                                </svg>
+                            </span>
+                            Monthly investment amount
+                        </label>
+                        <div class="amount-selector">
+                            <button class="amount-option" onclick="selectAmount(5000)">₹5,000</button>
+                            <button class="amount-option" onclick="selectAmount(10000)">₹10,000</button>
+                            <button class="amount-option selected" onclick="selectAmount(25000)">₹25,000</button>
+                            <button class="amount-option" onclick="selectAmount(50000)">₹50,000</button>
+                            <button class="amount-option" onclick="selectAmount(100000)">₹1,00,000+</button>
+                        </div>
+                    </div>
+
+                    <!-- Financial Goal -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <circle cx="12" cy="12" r="6" />
+                                    <circle cx="12" cy="12" r="2" />
+                                </svg>
+                            </span>
+                            What's your goal?
+                        </label>
+                        <div class="goal-options">
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">🏠</span>
+                                <span>Property in India</span>
+                            </button>
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">👨‍👩‍👧</span>
+                                <span>Children's future</span>
+                            </button>
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">🏖️</span>
+                                <span>Retirement</span>
+                            </button>
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">💰</span>
+                                <span>Wealth building</span>
+                            </button>
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">🎯</span>
+                                <span>Specific goal</span>
+                            </button>
+                            <button class="goal-option" onclick="selectGoal(this)">
+                                <span class="goal-emoji">🤷</span>
+                                <span>Not sure yet</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Time Horizon -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 6v6l4 2" />
+                                </svg>
+                            </span>
+                            How long do you plan to stay invested?
+                        </label>
+                        <div class="horizon-options">
+                            <button class="horizon-option" onclick="selectHorizon(this)">
+                                <span class="horizon-years">1-3</span>
+                                <span class="horizon-label">years</span>
+                            </button>
+                            <button class="horizon-option" onclick="selectHorizon(this)">
+                                <span class="horizon-years">3-5</span>
+                                <span class="horizon-label">years</span>
+                            </button>
+                            <button class="horizon-option selected" onclick="selectHorizon(this)">
+                                <span class="horizon-years">5-10</span>
+                                <span class="horizon-label">years</span>
+                            </button>
+                            <button class="horizon-option" onclick="selectHorizon(this)">
+                                <span class="horizon-years">10+</span>
+                                <span class="horizon-label">years</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-secondary" onclick="goBackToStep2()">Back</button>
+                        <button class="btn-primary" id="step3-continue-btn" disabled
+                            onclick="goToStep4()">Continue</button>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Step 4: Personal Details -->
+        <section class="onboarding-step hidden" id="step-4">
+            <div class="step-content">
+                <span class="step-label">Step 4 of 4</span>
+                <h1 class="step-title">Your details</h1>
+                <p class="step-description">So we can reach out with your personalized investment path.</p>
+
+                <div class="details-form">
+                    <div class="input-group">
+                        <label class="input-label">Full name</label>
+                        <input type="text" id="user-name" placeholder="Enter your full name" class="text-input">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Country of residence</label>
+                        <select id="user-country" class="select-input">
+                            <option value="">Select your country</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="UAE">United Arab Emirates</option>
+                            <option value="SG">Singapore</option>
+                            <option value="AU">Australia</option>
+                            <option value="CA">Canada</option>
+                            <option value="DE">Germany</option>
+                            <option value="NL">Netherlands</option>
+                            <option value="HK">Hong Kong</option>
+                            <option value="MY">Malaysia</option>
+                            <option value="SA">Saudi Arabia</option>
+                            <option value="QA">Qatar</option>
+                            <option value="KW">Kuwait</option>
+                            <option value="BH">Bahrain</option>
+                            <option value="OM">Oman</option>
+                            <option value="NZ">New Zealand</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Contact Section (merged) -->
+                    <div class="contact-section">
+                        <label class="input-label">How should we reach you?</label>
+
+                        <div class="contact-options">
+                            <label class="contact-option">
+                                <input type="radio" name="contact" value="whatsapp" checked
+                                    onchange="toggleContactInput()">
+                                <span class="contact-card">
+                                    <span class="contact-icon">📱</span>
+                                    <span class="contact-text">
+                                        <strong>WhatsApp</strong>
+                                        <small>Quick responses</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="contact-option">
+                                <input type="radio" name="contact" value="email" onchange="toggleContactInput()">
+                                <span class="contact-card">
+                                    <span class="contact-icon">📧</span>
+                                    <span class="contact-text">
+                                        <strong>Email</strong>
+                                        <small>Detailed guidance</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- WhatsApp Input -->
+                        <div id="whatsapp-input" class="contact-input-field">
+                            <div class="phone-input">
+                                <span class="country-code">+</span>
+                                <input type="tel" id="phone-number" placeholder="Country code + number"
+                                    class="phone-number-input">
+                            </div>
+                            <small class="input-hint">Include country code (e.g., 1 for US, 971 for UAE)</small>
+                        </div>
+
+                        <!-- Email Input -->
+                        <div id="email-input" class="contact-input-field hidden">
+                            <input type="email" id="user-email" placeholder="Enter your email address"
+                                class="text-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-secondary" onclick="goBackToStep3()">Back</button>
+                    <button class="btn-primary" id="final-submit-btn" disabled onclick="submitDetails()">Get My
+                        Personalized Path</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Confirmation -->
+        <section class="onboarding-step hidden" id="step-5">
+            <div class="step-content confirmation-content">
+                <div class="confirmation-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9 12l2 2 4-4" />
+                    </svg>
+                </div>
+                <h1 class="step-title">You're all set!</h1>
+                <p class="step-description">We've received your details. Our team will reach out within 24 hours with a
+                    personalized investment path based on your goals and NRI status.</p>
+
+                <div class="next-steps-card">
+                    <h4>What happens next?</h4>
+                    <ul>
+                        <li>We'll review your information and prepare recommendations</li>
+                        <li>You'll receive a personalized guide on WhatsApp</li>
+                        <li>We'll schedule a call if you have questions</li>
+                    </ul>
+                </div>
+
+                <div class="step-actions centered">
+                    <a href="index.html" class="btn-primary">Back to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let currentStep = 1;
+        let selectedStatus = null;
+        let formData = {
+            amount: 25000,
+            goal: null,
+            horizon: '5-10',
+            contact: 'whatsapp',
+            phone: ''
+        };
+
+        function selectStatus(status) {
+            selectedStatus = status;
+
+            // Update visual selection
+            document.querySelectorAll('.status-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-status="${status}"]`).classList.add('selected');
+
+            // Show appropriate step 2 after a brief delay
+            setTimeout(() => {
+                document.getElementById('step-1').classList.add('hidden');
+                if (status === 'nri') {
+                    document.getElementById('step-2-nri').classList.remove('hidden');
+                } else {
+                    document.getElementById('step-2-oci').classList.remove('hidden');
+                }
+                updateProgress(2);
+            }, 300);
+        }
+
+        function toggleContinue() {
+            const checkbox = document.getElementById('docs-acknowledgement');
+            const continueBtn = document.getElementById('continue-btn');
+            continueBtn.disabled = !checkbox.checked;
+        }
+
+        function goBack() {
+            document.getElementById('step-2-nri').classList.add('hidden');
+            document.getElementById('step-2-oci').classList.add('hidden');
+            document.getElementById('step-1').classList.remove('hidden');
+            updateProgress(1);
+        }
+
+        function goToStep3() {
+            document.getElementById('step-2-nri').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            updateProgress(3);
+            window.scrollTo(0, 0);
+        }
+
+        function goBackToStep2() {
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-2-nri').classList.remove('hidden');
+            updateProgress(2);
+        }
+
+        function goToStep4() {
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-4').classList.remove('hidden');
+            updateProgress(4);
+            window.scrollTo(0, 0);
+        }
+
+        function goBackToStep3() {
+            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            updateProgress(3);
+        }
+
+        function selectAmount(amount) {
+            formData.amount = amount;
+            document.querySelectorAll('.amount-option').forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+            validateStep3();
+        }
+
+        function selectGoal(element) {
+            document.querySelectorAll('.goal-option').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            formData.goal = element.querySelector('span:last-child').textContent;
+            validateStep3();
+        }
+
+        function selectHorizon(element) {
+            document.querySelectorAll('.horizon-option').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            formData.horizon = element.querySelector('.horizon-years').textContent;
+            validateStep3();
+        }
+
+        function validateStep3() {
+            const continueBtn = document.getElementById('step3-continue-btn');
+            // All fields are mandatory: amount, goal, and horizon
+            if (formData.amount && formData.goal && formData.horizon) {
+                continueBtn.disabled = false;
+            } else {
+                continueBtn.disabled = true;
+            }
+        }
+
+        function toggleContactInput() {
+            const contactMethod = document.querySelector('input[name="contact"]:checked').value;
+            const whatsappInput = document.getElementById('whatsapp-input');
+            const emailInput = document.getElementById('email-input');
+
+            if (contactMethod === 'whatsapp') {
+                whatsappInput.classList.remove('hidden');
+                emailInput.classList.add('hidden');
+            } else {
+                whatsappInput.classList.add('hidden');
+                emailInput.classList.remove('hidden');
+            }
+            validateStep4();
+        }
+
+        // Add event listeners for Step 4 validation
+        document.getElementById('user-name').addEventListener('input', validateStep4);
+        document.getElementById('user-country').addEventListener('change', validateStep4);
+        document.getElementById('phone-number').addEventListener('input', validateStep4);
+        document.getElementById('user-email').addEventListener('input', validateStep4);
+
+        function validateStep4() {
+            const name = document.getElementById('user-name').value.trim();
+            const country = document.getElementById('user-country').value;
+            const contactMethod = document.querySelector('input[name="contact"]:checked').value;
+            const phone = document.getElementById('phone-number').value.trim();
+            const email = document.getElementById('user-email').value.trim();
+
+            let isValid = false;
+
+            if (name && country) {
+                if (contactMethod === 'whatsapp' && phone) {
+                    isValid = true;
+                } else if (contactMethod === 'email' && email) {
+                    isValid = true;
+                }
+            }
+
+            document.getElementById('final-submit-btn').disabled = !isValid;
+        }
+
+        function submitDetails() {
+            formData.name = document.getElementById('user-name').value;
+            formData.country = document.getElementById('user-country').value;
+            formData.contact = document.querySelector('input[name="contact"]:checked').value;
+
+            if (formData.contact === 'whatsapp') {
+                formData.phone = document.getElementById('phone-number').value;
+            } else {
+                formData.email = document.getElementById('user-email').value;
+            }
+
+            formData.submittedAt = new Date().toISOString();
+
+            // Save to localStorage for admin page
+            try {
+                const existingLeads = JSON.parse(localStorage.getItem('mutualFundLeads') || '[]');
+                existingLeads.unshift(formData);
+                localStorage.setItem('mutualFundLeads', JSON.stringify(existingLeads));
+            } catch (e) {
+                console.error('Error saving lead:', e);
+            }
+
+            console.log('Form submitted:', formData);
+
+            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('step-5').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateProgress(step) {
+            document.querySelectorAll('.progress-step').forEach((el, index) => {
+                if (index < step) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
