@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Aswin on Finance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #10B981;
+            --color-bg: #F8FAFC;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-bg);
+            color: #1a1a1a;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .dashboard-container {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="card">
+            <h2 style="text-align: center; margin-top: 0;">Admin Login</h2>
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button onclick="checkPassword()">Login</button>
+            <p id="error-msg" style="color: red; text-align: center; display: none; margin-bottom: 0;">Incorrect
+                password</p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Mutual Funds Leads</h1>
+            <button onclick="logout()" style="width: auto; background: #ef4444;">Logout</button>
+        </div>
+
+        <div id="leads-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Goal</th>
+                        <th>Horizon</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody id="leads-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            if (input === 'ycombinator') {
+                sessionStorage.setItem('isAdmin', 'true');
+                showDashboard();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadLeads();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('isAdmin');
+            location.reload();
+        }
+
+        function loadLeads() {
+            const leads = JSON.parse(localStorage.getItem('mutualFundLeads') || '[]');
+            const tbody = document.getElementById('leads-body');
+
+            if (leads.length === 0) {
+                document.getElementById('leads-table-container').innerHTML =
+                    '<div class="empty-state">No leads submitted yet.</div>';
+                return;
+            }
+
+            tbody.innerHTML = leads.map(lead => {
+                const date = new Date(lead.submittedAt).toLocaleDateString();
+                const contactInfo = lead.contact === 'whatsapp'
+                    ? `📱 ${lead.phone}`
+                    : `📧 ${lead.email}`;
+
+                return `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${lead.name}<br><small style="color: #6b7280">${lead.country}</small></td>
+                        <td><span style="padding: 2px 8px; background: #e0e7ff; color: #4338ca; border-radius: 99px; font-size: 12px; font-weight: 600;">${lead.residency}</span></td>
+                        <td>${lead.amount}</td>
+                        <td>${lead.goal}</td>
+                        <td>${lead.horizon}</td>
+                        <td>${contactInfo}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Auto-login if session exists
+        if (sessionStorage.getItem('isAdmin') === 'true') {
+            showDashboard();
+        }
+    </script>
+</body>
+
+</html>
