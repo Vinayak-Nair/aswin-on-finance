@@ -425,7 +425,22 @@
         </section>
     </main>
 
-    <script>
+    <script type="module">
+        import { supabase } from '../js/supabase-client.js';
+
+        // Make functions globally available since we're inside a module
+        window.selectStatus = selectStatus;
+        window.toggleContinue = toggleContinue;
+        window.goBack = goBack;
+        window.goToStep3 = goToStep3;
+        window.goBackToStep2 = goBackToStep2;
+        window.goToStep4 = goToStep4;
+        window.goBackToStep3 = goBackToStep3;
+        window.selectAmount = selectAmount;
+        window.selectGoal = selectGoal;
+        window.selectHorizon = selectHorizon;
+        window.submitDetails = submitDetails;
+
         let currentStep = 1;
         let selectedStatus = null;
         let formData = {
@@ -438,6 +453,7 @@
 
         function selectStatus(status) {
             selectedStatus = status;
+            formData.residency = status === 'nri' ? 'NRI' : 'OCI'; // Add residency to formData
 
             // Update visual selection
             document.querySelectorAll('.status-card').forEach(card => {
@@ -527,7 +543,9 @@
             }
         }
 
-        function toggleContactInput() {
+        // Expose toggle contact input globally manually or by attaching to window if needed by HTML onchange,
+        // but it's better to add listeners in JS. For now, matching the window pattern.
+        window.toggleContactInput = function () {
             const contactMethod = document.querySelector('input[name="contact"]:checked').value;
             const whatsappInput = document.getElementById('whatsapp-input');
             const emailInput = document.getElementById('email-input');
@@ -568,33 +586,58 @@
             document.getElementById('final-submit-btn').disabled = !isValid;
         }
 
-        function submitDetails() {
+        async function submitDetails() {
+            const submitBtn = document.getElementById('final-submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
             formData.name = document.getElementById('user-name').value;
             formData.country = document.getElementById('user-country').value;
             formData.contact = document.querySelector('input[name="contact"]:checked').value;
 
             if (formData.contact === 'whatsapp') {
                 formData.phone = document.getElementById('phone-number').value;
+                formData.email = null;
             } else {
                 formData.email = document.getElementById('user-email').value;
+                formData.phone = null;
             }
 
-            formData.submittedAt = new Date().toISOString();
+            // Prepare payload matching Supabase table structure
+            const payload = {
+                name: formData.name,
+                country: formData.country,
+                status: formData.residency || 'NRI', // Default to NRI if not set
+                amount: formData.amount,
+                goal: formData.goal,
+                horizon: formData.horizon,
+                contact_method: formData.contact,
+                phone: formData.phone,
+                email: formData.email,
+                submitted_at: new Date().toISOString()
+            };
 
-            // Save to localStorage for admin page
+            console.log('Submitting to Supabase:', payload);
+
             try {
-                const existingLeads = JSON.parse(localStorage.getItem('mutualFundLeads') || '[]');
-                existingLeads.unshift(formData);
-                localStorage.setItem('mutualFundLeads', JSON.stringify(existingLeads));
-            } catch (e) {
-                console.error('Error saving lead:', e);
+                const { data, error } = await supabase
+                    .from('leads')
+                    .insert([payload]);
+
+                if (error) throw error;
+
+                console.log('Success:', data);
+
+                document.getElementById('step-4').classList.add('hidden');
+                document.getElementById('step-5').classList.remove('hidden');
+                window.scrollTo(0, 0);
+
+            } catch (error) {
+                console.error('Error submitting lead:', error);
+                alert('There was an error submitting your details. Please try again.');
+                submitBtn.textContent = 'Submit Application';
+                submitBtn.disabled = false;
             }
-
-            console.log('Form submitted:', formData);
-
-            document.getElementById('step-4').classList.add('hidden');
-            document.getElementById('step-5').classList.remove('hidden');
-            window.scrollTo(0, 0);
         }
 
         function updateProgress(step) {
