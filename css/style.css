@@ -1,14 +1,7 @@
 /* ========================================
    CSS Variables & Reset
    ======================================== */
-:root {
-    --color-bg: #ffffff;
-    --color-text-primary: #222221;
-    --color-text-secondary: #898683;
-    --color-button-bg: #160F0C;
-    --color-button-text: #ffffff;
-    --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
+/* :root variables moved to variables.css */
 
 *,
 *::before,
