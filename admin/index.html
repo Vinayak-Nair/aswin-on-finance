@@ -100,10 +100,11 @@
     <div id="login-screen" class="login-container">
         <div class="card">
             <h2 style="text-align: center; margin-top: 0;">Admin Login</h2>
-            <input type="password" id="password-input" placeholder="Enter password">
-            <button onclick="checkPassword()">Login</button>
-            <p id="error-msg" style="color: red; text-align: center; display: none; margin-bottom: 0;">Incorrect
-                password</p>
+            <input type="email" id="email-input" placeholder="admin@example.com" style="margin-bottom: 0.5rem;">
+            <input type="password" id="password-input" placeholder="Password">
+            <button id="login-btn" onclick="handleLogin()">Login</button>
+            <p id="error-msg"
+                style="color: red; text-align: center; display: none; margin-top: 1rem; margin-bottom: 0;"></p>
         </div>
     </div>
 
@@ -111,7 +112,7 @@
     <div id="dashboard" class="dashboard-container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Mutual Funds Leads</h1>
-            <button onclick="logout()" style="width: auto; background: #ef4444;">Logout</button>
+            <button onclick="handleLogout()" style="width: auto; background: #ef4444;">Logout</button>
         </div>
 
         <div id="leads-table-container">
@@ -132,14 +133,68 @@
         </div>
     </div>
 
-    <script>
-        function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            if (input === 'ycombinator') {
-                sessionStorage.setItem('isAdmin', 'true');
+    <script type="module">
+        import { supabase } from '../js/supabase-client.js';
+
+        // Make functions globally available
+        window.handleLogin = handleLogin;
+        window.handleLogout = handleLogout;
+        window.showDashboard = showDashboard;
+        
+        // Check current session on load
+        checkSession();
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
                 showDashboard();
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('email-input').value;
+            const password = document.getElementById('password-input').value;
+            const errorMsg = document.getElementById('error-msg');
+            const loginBtn = document.getElementById('login-btn');
+
+            if (!email || !password) {
+                errorMsg.textContent = 'Please enter both email and password';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            loginBtn.textContent = 'Logging in...';
+            loginBtn.disabled = true;
+            errorMsg.style.display = 'none';
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) throw error;
+                
+                showDashboard();
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMsg.textContent = error.message || 'Invalid credentials';
+                errorMsg.style.display = 'block';
+            } finally {
+                loginBtn.textContent = 'Login';
+                loginBtn.disabled = false;
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+                location.reload();
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error logging out');
             }
         }
 
@@ -149,44 +204,47 @@
             loadLeads();
         }
 
-        function logout() {
-            sessionStorage.removeItem('isAdmin');
-            location.reload();
-        }
-
-        function loadLeads() {
-            const leads = JSON.parse(localStorage.getItem('mutualFundLeads') || '[]');
+        async function loadLeads() {
             const tbody = document.getElementById('leads-body');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading leads...</td></tr>';
 
-            if (leads.length === 0) {
-                document.getElementById('leads-table-container').innerHTML =
-                    '<div class="empty-state">No leads submitted yet.</div>';
-                return;
+            try {
+                const { data: leads, error } = await supabase
+                    .from('leads')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!leads || leads.length === 0) {
+                    document.getElementById('leads-table-container').innerHTML =
+                        '<div class="empty-state">No leads submitted yet.</div>';
+                    return;
+                }
+
+                tbody.innerHTML = leads.map(lead => {
+                    const date = lead.submitted_at ? new Date(lead.submitted_at).toLocaleDateString() : '-';
+                    const contactInfo = lead.contact_method === 'whatsapp'
+                        ? `📱 ${lead.phone || ''}`
+                        : `📧 ${lead.email || ''}`;
+
+                    return `
+                        <tr>
+                            <td>${date}</td>
+                            <td>${lead.name || '-'}<br><small style="color: #6b7280">${lead.country || '-'}</small></td>
+                            <td><span style="padding: 2px 8px; background: #e0e7ff; color: #4338ca; border-radius: 99px; font-size: 12px; font-weight: 600;">${lead.status || '-'}</span></td>
+                            <td>${lead.amount || '-'}</td>
+                            <td>${lead.goal || '-'}</td>
+                            <td>${lead.horizon || '-'}</td>
+                            <td>${contactInfo}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading leads:', error);
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Error: ${error.message}</td></tr>`;
             }
-
-            tbody.innerHTML = leads.map(lead => {
-                const date = new Date(lead.submittedAt).toLocaleDateString();
-                const contactInfo = lead.contact === 'whatsapp'
-                    ? `📱 ${lead.phone}`
-                    : `📧 ${lead.email}`;
-
-                return `
-                    <tr>
-                        <td>${date}</td>
-                        <td>${lead.name}<br><small style="color: #6b7280">${lead.country}</small></td>
-                        <td><span style="padding: 2px 8px; background: #e0e7ff; color: #4338ca; border-radius: 99px; font-size: 12px; font-weight: 600;">${lead.residency}</span></td>
-                        <td>${lead.amount}</td>
-                        <td>${lead.goal}</td>
-                        <td>${lead.horizon}</td>
-                        <td>${contactInfo}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // Auto-login if session exists
-        if (sessionStorage.getItem('isAdmin') === 'true') {
-            showDashboard();
         }
     </script>
 </body>
