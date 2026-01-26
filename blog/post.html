@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | Aswin on Finance</title>
+    <meta name="description" content="Financial insights for NRIs.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="post.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-content">
+            <a href="../index.html" class="header-logo">
+                <span class="header-logo-icon">✦</span>
+                <span>Aswin on Finance</span>
+            </a>
+            <a href="index.html" class="back-link">
+                ← Back to Blog
+            </a>
+        </div>
+    </header>
+
+    <article class="article-container" id="article-container">
+        <!-- Loading State -->
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading article...</p>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-icon">✦</span>
+                <span class="footer-name">Aswin on Finance</span>
+            </div>
+            <div class="footer-tagline">
+                <span>insights for the curious</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Narrator (Optional, logic needs to be updated for dynamic content if used) -->
+    <!-- <script src="../audio-narrator.js"></script> -->
+
+    <script type="module">
+        import { supabase } from '../js/supabase-client.js';
+
+        async function loadPost() {
+            const container = document.getElementById('article-container');
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug');
+            const id = params.get('id');
+
+            if (!slug && !id) {
+                container.innerHTML = '<div class="error">Article not found. <a href="index.html">Go back</a></div>';
+                return;
+            }
+
+            try {
+                let query = supabase.from('posts').select('*').single();
+
+                if (slug) {
+                    query = query.eq('slug', slug);
+                } else {
+                    query = query.eq('id', id);
+                }
+
+                const { data: post, error } = await query;
+
+                if (error) throw error;
+                if (!post) throw new Error('Post not found');
+
+                // Update Page Title
+                document.title = `${post.title} | Aswin on Finance`;
+                document.querySelector('meta[name="description"]').setAttribute('content', post.excerpt || post.title);
+
+                // Format Date
+                const date = new Date(post.published_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Render Content
+                container.innerHTML = `
+                    <header class="article-header">
+                        <div class="article-meta">
+                            <span class="article-category">${post.category || 'General'}</span>
+                            <span class="blog-meta-separator"></span>
+                            <span class="article-date">${date}</span>
+                        </div>
+                        <h1 class="article-title">${post.title}</h1>
+                    </header>
+
+                    <div class="article-hero">
+                        <img src="${post.thumbnail_url || 'images/placeholder.webp'}" alt="${post.title}">
+                    </div>
+
+                    <div class="article-content">
+                        ${post.content}
+                    </div>
+
+                    <nav class="article-nav">
+                        <a href="index.html" class="nav-back-btn">
+                            ← Back to All Posts
+                        </a>
+                    </nav>
+                `;
+
+            } catch (err) {
+                console.error('Error loading post:', err);
+                container.innerHTML = `
+                    <div class="error">
+                        <h2>Oops! Article not found.</h2>
+                        <p>It might have been moved or deleted.</p>
+                        <a href="index.html" class="btn-secondary">Back to Blog</a>
+                    </div>
+                `;
+            }
+        }
+
+        loadPost();
+    </script>
+</body>
+
+</html>
