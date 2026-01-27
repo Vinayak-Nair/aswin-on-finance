@@ -1,22 +1,19 @@
-/**
- * NRI Status Calculator Logic (Yes/No Version)
- * Based on Section 6 of the Income Tax Act, 1961
- */
+import { $, $$, $id, toggleVisibility } from '../../js/utils.js';
 
 // Toggle terminology help
-function toggleHelp() {
-    const helpContent = document.getElementById('help-content');
-    helpContent.classList.toggle('show');
+export function toggleHelp() {
+    const helpContent = $id('help-content');
+    if (helpContent) helpContent.classList.toggle('show');
 }
 
 // Navigation helper
-function goToStep(step) {
-    document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-    document.querySelector(`[data-step="${step}"]`).classList.add('active');
+export function goToStep(step) {
+    $$('.calc-step').forEach(s => s.classList.remove('active'));
+    $(`[data-step="${step}"]`)?.classList.add('active');
 }
 
 function getSelectedValue(name) {
-    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    const selected = $(`input[name="${name}"]:checked`);
     return selected ? selected.value === 'yes' : null;
 }
 
@@ -29,83 +26,60 @@ function validateSelection(name) {
 }
 
 // Step handlers
-function handleStep1() {
+export function handleStep1() {
     if (!validateSelection('q1-182-days')) return;
-
     const stayed182Days = getSelectedValue('q1-182-days');
-
     if (stayed182Days) {
-        // 182+ days = Resident, go to RNOR check
         goToStep(6);
     } else {
-        // Less than 182 days, check citizenship
         goToStep(2);
     }
 }
 
-function handleStep2() {
+export function handleStep2() {
     if (!validateSelection('q2-citizen-abroad')) return;
-
     const isCitizenAbroad = getSelectedValue('q2-citizen-abroad');
-
     if (isCitizenAbroad) {
-        // Indian citizen/PIO abroad - check high income
         goToStep(4);
     } else {
-        // Not citizen abroad - check 60+365 rule
         goToStep(3);
     }
 }
 
-function handleStep3() {
+export function handleStep3() {
     if (!validateSelection('q3-60-365')) return;
-
     const meets60_365 = getSelectedValue('q3-60-365');
-
     if (meets60_365) {
-        // 60 days + 365 days = Resident
         goToStep(6);
     } else {
-        // NRI
         showResult('NRI');
     }
 }
 
-function handleStep4() {
+export function handleStep4() {
     if (!validateSelection('q4-high-income')) return;
-
     const hasHighIncome = getSelectedValue('q4-high-income');
-
     if (hasHighIncome) {
-        // High income - 120 day threshold applies
         goToStep(5);
     } else {
-        // Low income citizen abroad - NRI (182 day exception applies, and they already said <182)
         showResult('NRI');
     }
 }
 
-function handleStep5() {
+export function handleStep5() {
     if (!validateSelection('q5-120-365')) return;
-
     const meets120_365 = getSelectedValue('q5-120-365');
-
     if (meets120_365) {
-        // 120 days + 365 days = Resident
         goToStep(6);
     } else {
-        // NRI
         showResult('NRI');
     }
 }
 
-function handleRNOR() {
+export function handleRNOR() {
     if (!validateSelection('q6-nri-9-years') || !validateSelection('q6-729-days')) return;
-
     const nri9Years = getSelectedValue('q6-nri-9-years');
     const under729Days = getSelectedValue('q6-729-days');
-
-    // RNOR if either condition is true
     if (nri9Years || under729Days) {
         showResult('RNOR');
     } else {
@@ -117,77 +91,93 @@ function handleRNOR() {
  * Display results
  */
 function showResult(status) {
-    // Hide form
-    document.getElementById('nri-calculator').style.display = 'none';
+    const calcForm = $id('nri-calculator');
+    if (calcForm) calcForm.style.display = 'none';
 
-    // Show result
-    const resultContainer = document.getElementById('result');
-    resultContainer.classList.remove('hidden');
+    const resultContainer = $id('result');
+    if (resultContainer) resultContainer.classList.remove('hidden');
 
-    const statusBadge = document.getElementById('status-badge');
-    const resultTitle = document.getElementById('result-title');
-    const resultDescription = document.getElementById('result-description');
-    const taxImplications = document.getElementById('tax-implications');
+    const statusBadge = $id('status-badge');
+    const resultTitle = $id('result-title');
+    const resultDescription = $id('result-description');
+    const taxImplications = $id('tax-implications');
 
-    // Clear previous
+    if (!taxImplications) return;
     taxImplications.innerHTML = '';
 
-    switch (status) {
-        case 'NRI':
-            statusBadge.textContent = 'NRI';
-            statusBadge.className = 'status-badge nri';
-            resultTitle.textContent = 'You are a Non-Resident Indian';
-            resultDescription.textContent = 'Based on your answers, you qualify as a Non-Resident Indian (NRI) for tax purposes in FY 2024-25.';
-            taxImplications.innerHTML = `
-                <li>Only income earned or received in India is taxable</li>
-                <li>Foreign income is not taxable in India</li>
-                <li>Can maintain NRE/NRO bank accounts</li>
-                <li>Special investment options available (NRI FDs, etc.)</li>
-            `;
-            break;
+    const data = {
+        'NRI': {
+            badge: 'NRI',
+            class: 'nri',
+            title: 'You are a Non-Resident Indian',
+            desc: 'Based on your answers, you qualify as a Non-Resident Indian (NRI) for tax purposes in FY 2024-25.',
+            implications: [
+                'Only income earned or received in India is taxable',
+                'Foreign income is not taxable in India',
+                'Can maintain NRE/NRO bank accounts',
+                'Special investment options available (NRI FDs, etc.)'
+            ]
+        },
+        'ROR': {
+            badge: 'ROR',
+            class: 'ror',
+            title: 'You are a Resident and Ordinarily Resident',
+            desc: 'Based on your answers, you qualify as Resident and Ordinarily Resident (ROR) for tax purposes in FY 2024-25.',
+            implications: [
+                'Your global income is taxable in India',
+                'Must report foreign assets and income',
+                'Standard resident tax slabs apply',
+                'Must maintain resident savings accounts'
+            ]
+        },
+        'RNOR': {
+            badge: 'RNOR',
+            class: 'rnor',
+            title: 'You are Resident but Not Ordinarily Resident',
+            desc: 'Based on your answers, you qualify as Resident but Not Ordinarily Resident (RNOR) for tax purposes in FY 2024-25.',
+            implications: [
+                'Indian income is taxable in India',
+                'Foreign income generally not taxable (with some exceptions)',
+                'Business income from India is taxable',
+                'Transitional status - may become ROR in future years'
+            ]
+        }
+    };
 
-        case 'ROR':
-            statusBadge.textContent = 'ROR';
-            statusBadge.className = 'status-badge ror';
-            resultTitle.textContent = 'You are a Resident and Ordinarily Resident';
-            resultDescription.textContent = 'Based on your answers, you qualify as Resident and Ordinarily Resident (ROR) for tax purposes in FY 2024-25.';
-            taxImplications.innerHTML = `
-                <li>Your global income is taxable in India</li>
-                <li>Must report foreign assets and income</li>
-                <li>Standard resident tax slabs apply</li>
-                <li>Must maintain resident savings accounts</li>
-            `;
-            break;
-
-        case 'RNOR':
-            statusBadge.textContent = 'RNOR';
-            statusBadge.className = 'status-badge rnor';
-            resultTitle.textContent = 'You are Resident but Not Ordinarily Resident';
-            resultDescription.textContent = 'Based on your answers, you qualify as Resident but Not Ordinarily Resident (RNOR) for tax purposes in FY 2024-25.';
-            taxImplications.innerHTML = `
-                <li>Indian income is taxable in India</li>
-                <li>Foreign income generally not taxable (with some exceptions)</li>
-                <li>Business income from India is taxable</li>
-                <li>Transitional status - may become ROR in future years</li>
-            `;
-            break;
+    const info = data[status];
+    if (statusBadge) {
+        statusBadge.textContent = info.badge;
+        statusBadge.className = `status-badge ${info.class}`;
     }
+    if (resultTitle) resultTitle.textContent = info.title;
+    if (resultDescription) resultDescription.textContent = info.desc;
+
+    taxImplications.innerHTML = info.implications.map(imp => `<li>${imp}</li>`).join('');
 }
 
 /**
  * Restart calculator
  */
-function restartCalculator() {
-    // Reset form
-    document.getElementById('nri-calculator').reset();
-
-    // Show form, hide result
-    document.getElementById('nri-calculator').style.display = 'block';
-    document.getElementById('result').classList.add('hidden');
-
-    // Go back to step 1
+export function restartCalculator() {
+    const calcForm = $id('nri-calculator');
+    if (calcForm) {
+        calcForm.reset();
+        calcForm.style.display = 'block';
+    }
+    $id('result')?.classList.add('hidden');
     goToStep(1);
 }
+
+// Expose to window for inline onclick attributes
+window.toggleHelp = toggleHelp;
+window.handleStep1 = handleStep1;
+window.handleStep2 = handleStep2;
+window.handleStep3 = handleStep3;
+window.handleStep4 = handleStep4;
+window.handleStep5 = handleStep5;
+window.handleRNOR = handleRNOR;
+window.restartCalculator = restartCalculator;
+window.goToStep = goToStep;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
