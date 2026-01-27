@@ -5,118 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Aswin on Finance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #10B981;
-            --color-bg: #F8FAFC;
-        }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background: var(--color-bg);
-            color: #1a1a1a;
-        }
+    <!-- Design System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .dashboard-container {
-            display: none;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        h1 {
-            margin-bottom: 2rem;
-        }
-
-        input {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        th,
-        td {
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        th {
-            background: #f3f4f6;
-            font-weight: 600;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6b7280;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- Login Screen -->
+    <!-- ========================================
+       Login Screen
+       ======================================== -->
     <div id="login-screen" class="login-container">
-        <div class="card">
-            <h2 style="text-align: center; margin-top: 0;">Admin Login</h2>
-            <input type="email" id="email-input" placeholder="admin@example.com" style="margin-bottom: 0.5rem;">
-            <input type="password" id="password-input" placeholder="Password">
-            <button id="login-btn" onclick="handleLogin()">Login</button>
-            <p id="error-msg"
-                style="color: red; text-align: center; display: none; margin-top: 1rem; margin-bottom: 0;"></p>
+        <div class="login-card card">
+            <h2>Admin Login</h2>
+            <input type="email" id="email-input" class="admin-input" placeholder="admin@example.com"
+                autocomplete="email">
+            <input type="password" id="password-input" class="admin-input" placeholder="Password"
+                autocomplete="current-password">
+            <button id="login-btn" class="admin-btn">Login</button>
+            <p id="error-msg" class="error-msg" style="display: none;"></p>
         </div>
     </div>
 
-    <!-- Dashboard -->
+    <!-- ========================================
+       Dashboard
+       ======================================== -->
     <div id="dashboard" class="dashboard-container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h1>Mutual Funds Leads</h1>
-            <button onclick="handleLogout()" style="width: auto; background: #ef4444;">Logout</button>
-        </div>
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Dashboard</h1>
+            <button id="logout-btn" class="admin-btn admin-btn--logout">Logout</button>
+        </header>
 
-        <div id="leads-table-container">
-            <table>
+        <!-- Leads Section -->
+        <section class="admin-section">
+            <h2>Mutual Fund Leads</h2>
+            <table class="leads-table">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -128,211 +58,35 @@
                         <th>Contact</th>
                     </tr>
                 </thead>
-                <tbody id="leads-body"></tbody>
+                <tbody id="leads-body">
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Loading...</td>
+                    </tr>
+                </tbody>
             </table>
-        </div>
+        </section>
 
-        <!-- NEW: Blog Management Section -->
-        <div style="margin-top: 3rem;">
+        <!-- Blog Management Section -->
+        <section class="admin-section">
             <h2>Manage Blog Posts</h2>
-            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+
+            <div class="blog-form-card">
                 <h3>Create New Post</h3>
-                <input type="text" id="post-title" placeholder="Post Title">
-                <textarea id="post-content" placeholder="HTML Content"
-                    style="width: 100%; height: 200px; padding: 0.75rem; margin-bottom: 1rem; border: 2px solid #e5e7eb; border-radius: 8px;"></textarea>
-                <button onclick="createPost()">Publish Post</button>
+                <input type="text" id="post-title" class="admin-input" placeholder="Post Title">
+                <textarea id="post-content" class="admin-textarea"
+                    placeholder="Post content (HTML supported)"></textarea>
+                <button id="create-post-btn" class="admin-btn">Publish Post</button>
             </div>
 
             <h3 style="margin-top: 2rem;">Recent Posts</h3>
-            <div id="posts-list" style="background: white; border-radius: 12px; overflow: hidden;"></div>
-        </div>
+            <div id="posts-list" class="posts-list">
+                <div style="padding: 1rem; text-align: center;">Loading...</div>
+            </div>
+        </section>
     </div>
 
-    <script type="module">
-        import { supabase } from '../js/supabase-client.js';
-
-        // Make functions globally available
-        window.handleLogin = handleLogin;
-        window.handleLogout = handleLogout;
-        window.showDashboard = showDashboard;
-
-        // Check current session on load
-        checkSession();
-
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                showDashboard();
-            }
-        }
-
-        async function handleLogin() {
-            const email = document.getElementById('email-input').value;
-            const password = document.getElementById('password-input').value;
-            const errorMsg = document.getElementById('error-msg');
-            const loginBtn = document.getElementById('login-btn');
-
-            if (!email || !password) {
-                errorMsg.textContent = 'Please enter both email and password';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            loginBtn.textContent = 'Logging in...';
-            loginBtn.disabled = true;
-            errorMsg.style.display = 'none';
-
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password
-                });
-
-                if (error) throw error;
-
-                showDashboard();
-
-            } catch (error) {
-                console.error('Login error:', error);
-                errorMsg.textContent = error.message || 'Invalid credentials';
-                errorMsg.style.display = 'block';
-            } finally {
-                loginBtn.textContent = 'Login';
-                loginBtn.disabled = false;
-            }
-        }
-
-        async function handleLogout() {
-            try {
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
-                location.reload();
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert('Error logging out');
-            }
-        }
-
-        function showDashboard() {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            loadLeads();
-        }
-
-        async function loadLeads() {
-            const tbody = document.getElementById('leads-body');
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading leads...</td></tr>';
-
-            try {
-                const { data: leads, error } = await supabase
-                    .from('leads')
-                    .select('*')
-                    .order('submitted_at', { ascending: false });
-
-                if (error) throw error;
-
-                if (!leads || leads.length === 0) {
-                    document.getElementById('leads-table-container').innerHTML =
-                        '<div class="empty-state">No leads submitted yet.</div>';
-                    return;
-                }
-
-                tbody.innerHTML = leads.map(lead => {
-                    const date = lead.submitted_at ? new Date(lead.submitted_at).toLocaleDateString() : '-';
-                    const contactInfo = lead.contact_method === 'whatsapp'
-                        ? `📱 ${lead.phone || ''}`
-                        : `📧 ${lead.email || ''}`;
-
-                    return `
-                        <tr>
-                            <td>${date}</td>
-                            <td>${lead.name || '-'}<br><small style="color: #6b7280">${lead.country || '-'}</small></td>
-                            <td><span style="padding: 2px 8px; background: #e0e7ff; color: #4338ca; border-radius: 99px; font-size: 12px; font-weight: 600;">${lead.status || '-'}</span></td>
-                            <td>${lead.amount || '-'}</td>
-                            <td>${lead.goal || '-'}</td>
-                            <td>${lead.horizon || '-'}</td>
-                            <td>${contactInfo}</td>
-                        </tr>
-                    `;
-                }).join('');
-
-            } catch (error) {
-                console.error('Error loading leads:', error);
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">Error: ${error.message}</td></tr>`;
-            }
-        }
-
-        // ========================================
-        // Blog Management Logic
-        // ========================================
-        window.createPost = createPost;
-
-        async function loadPosts() {
-            const container = document.getElementById('posts-list');
-
-            const { data: posts, error } = await supabase
-                .from('posts')
-                .select('*')
-                .order('published_at', { ascending: false })
-                .limit(10);
-
-            if (error) {
-                console.error('Error loading posts:', error);
-                return;
-            }
-
-            container.innerHTML = posts.map(post => `
-                <div style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-weight: 500;">${post.title}</div>
-                    <div style="font-size: 0.875rem; color: #6b7280;">${new Date(post.published_at).toLocaleDateString()}</div>
-                </div>
-            `).join('');
-        }
-
-        async function createPost() {
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-
-            if (!title || !content) {
-                alert('Please fill in title and content');
-                return;
-            }
-
-            // Simple slug generator
-            const slug = title
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/(^-|-$)/g, '');
-
-            try {
-                const { error } = await supabase
-                    .from('posts')
-                    .insert([{
-                        title,
-                        slug,
-                        content: `<div class="article-content">${content}</div>`, // Wrap content
-                        thumbnail_url: 'images/placeholder.webp', // Default
-                        published_at: new Date().toISOString()
-                    }]);
-
-                if (error) throw error;
-
-                alert('Post published successfully!');
-                document.getElementById('post-title').value = '';
-                document.getElementById('post-content').value = '';
-                loadPosts(); // Refresh list
-
-            } catch (error) {
-                console.error('Error publishing post:', error);
-                alert('Failed to publish: ' + error.message);
-            }
-        }
-
-        // Initial load
-        window.onload = function () {
-            // Check session is handled by checkSession()
-        };
-    </script>
+    <!-- Dashboard Script (ES Module) -->
+    <script type="module" src="dashboard.js"></script>
 </body>
 
 </html>

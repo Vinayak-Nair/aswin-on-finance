@@ -1,0 +1,272 @@
+/**
+ * Admin Dashboard Styles
+ * =======================
+ * Styles for the admin panel.
+ * Uses shared design tokens from css/variables.css
+ */
+
+/* ========================================
+   Layout
+   ======================================== */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-xl);
+}
+
+.dashboard-container {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.dashboard-container.active {
+    display: block;
+}
+
+/* ========================================
+   Login Card
+   ======================================== */
+.login-card {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-2xl);
+}
+
+/* ========================================
+   Header
+   ======================================== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.dashboard-header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   Tables
+   ======================================== */
+.leads-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.leads-table th,
+.leads-table td {
+    text-align: left;
+    padding: var(--spacing-base);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.leads-table th {
+    background: var(--color-bg-muted);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.leads-table tbody tr:hover {
+    background: var(--color-bg-subtle);
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+.admin-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: var(--spacing-base);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-base);
+}
+
+.admin-input:focus {
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+.admin-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 0.75rem 1rem;
+    margin-bottom: var(--spacing-base);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color var(--transition-base);
+}
+
+.admin-textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.admin-btn {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-success);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: background-color var(--transition-base),
+        transform var(--transition-base);
+}
+
+.admin-btn:hover {
+    transform: translateY(-1px);
+}
+
+.admin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.admin-btn--danger {
+    background: var(--color-error);
+}
+
+.admin-btn--logout {
+    width: auto;
+    background: var(--color-error);
+}
+
+/* ========================================
+   Status Badge
+   ======================================== */
+.status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #e0e7ff;
+    color: #4338ca;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   Sections
+   ======================================== */
+.admin-section {
+    margin-top: var(--spacing-3xl);
+}
+
+.admin-section h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.admin-section h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-base);
+    color: var(--color-text-secondary);
+}
+
+/* ========================================
+   Blog Management Card
+   ======================================== */
+.blog-form-card {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   Posts List
+   ======================================== */
+.posts-list {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-base);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.post-item:last-child {
+    border-bottom: none;
+}
+
+.post-item:hover {
+    background: var(--color-bg-subtle);
+}
+
+.post-title {
+    font-weight: var(--font-weight-medium);
+}
+
+.post-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* ========================================
+   Empty States
+   ======================================== */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    color: var(--color-text-muted);
+}
+
+/* ========================================
+   Error Message
+   ======================================== */
+.error-msg {
+    color: var(--color-error);
+    text-align: center;
+    margin-top: var(--spacing-base);
+    margin-bottom: 0;
+    font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   Contact Info Styling
+   ======================================== */
+.contact-info {
+    font-size: var(--font-size-sm);
+}
+
+.country-info {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
