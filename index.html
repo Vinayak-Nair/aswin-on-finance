@@ -138,6 +138,41 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script type="module">
+        // Prefetch blog data on hover for instant navigation
+        import { supabase } from './js/supabase-client.js';
+
+        const ctaButton = document.querySelector('.cta-button');
+        let prefetchDone = false;
+
+        async function prefetchBlogPosts() {
+            if (prefetchDone || sessionStorage.getItem('blogPosts')) return;
+            prefetchDone = true;
+
+            try {
+                const { data: posts, error } = await supabase
+                    .from('posts')
+                    .select('id, title, slug, excerpt, category, published_at, thumbnail_url')
+                    .order('published_at', { ascending: false });
+
+                if (!error && posts) {
+                    sessionStorage.setItem('blogPosts', JSON.stringify(posts));
+                    sessionStorage.setItem('blogPostsTime', Date.now().toString());
+                }
+            } catch (e) {
+                console.log('Prefetch failed, will load on page');
+            }
+        }
+
+        // Prefetch on hover (most common user behavior)
+        ctaButton?.addEventListener('mouseenter', prefetchBlogPosts, { once: true });
+
+        // Also prefetch on focus (keyboard navigation)
+        ctaButton?.addEventListener('focus', prefetchBlogPosts, { once: true });
+
+        // Prefetch after 2 seconds of page load as fallback
+        setTimeout(prefetchBlogPosts, 2000);
+    </script>
 </body>
 
 </html>
