@@ -38,10 +38,73 @@
     <script type="module">
         import { supabase } from '../js/supabase-client.js';
 
+        const CACHE_KEY = 'blogPosts';
+        const CACHE_TIME_KEY = 'blogPostsTime';
+        const CACHE_MAX_AGE = 5 * 60 * 1000; // 5 minutes
+
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function renderPosts(posts) {
+            const blogList = document.getElementById('blogList');
+
+            if (!posts || posts.length === 0) {
+                blogList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p class="empty-state-text">No posts yet. Check back soon!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            blogList.innerHTML = posts.map(post => {
+                const date = formatDate(post.published_at);
+                const postUrl = post.slug ? `post.html?slug=${post.slug}` : `post.html?id=${post.id}`;
+
+                return `
+                    <a href="${postUrl}" class="blog-item" data-id="${post.id}">
+                        <div class="blog-thumbnail-wrapper">
+                            <img 
+                                src="${post.thumbnail_url || 'images/placeholder.webp'}" 
+                                alt="${post.title}" 
+                                class="blog-thumbnail"
+                                loading="lazy"
+                                onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23e8e8e8%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22>📄</text></svg>'"
+                            >
+                        </div>
+                        <div class="blog-content">
+                            <h2 class="blog-title">${post.title}</h2>
+                            <div class="blog-meta">
+                                <span class="blog-category">${post.category || 'General'}</span>
+                                <span class="blog-date">${date}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
         async function fetchPosts() {
             const blogList = document.getElementById('blogList');
 
-            // Show loading state
+            // Check cache first for INSTANT load
+            const cachedPosts = sessionStorage.getItem(CACHE_KEY);
+            const cacheTime = parseInt(sessionStorage.getItem(CACHE_TIME_KEY) || '0');
+            const isCacheValid = cachedPosts && (Date.now() - cacheTime < CACHE_MAX_AGE);
+
+            if (isCacheValid) {
+                // INSTANT render from cache
+                renderPosts(JSON.parse(cachedPosts));
+                return;
+            }
+
+            // Show minimal loading state (only if no cache)
             blogList.innerHTML = '<div class="loading">Loading posts...</div>';
 
             try {
@@ -52,48 +115,11 @@
 
                 if (error) throw error;
 
-                if (!posts || posts.length === 0) {
-                    blogList.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📝</div>
-                            <p class="empty-state-text">No posts yet. Check back soon!</p>
-                        </div>
-                    `;
-                    return;
-                }
+                // Cache for next time
+                sessionStorage.setItem(CACHE_KEY, JSON.stringify(posts));
+                sessionStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
 
-                blogList.innerHTML = posts.map(post => {
-                    // Format date
-                    const date = new Date(post.published_at).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-
-                    // Use slug for URL if available, fallback to ID
-                    const postUrl = post.slug ? `post.html?slug=${post.slug}` : `post.html?id=${post.id}`;
-
-                    return `
-                        <a href="${postUrl}" class="blog-item" data-id="${post.id}">
-                            <div class="blog-thumbnail-wrapper">
-                                <img 
-                                    src="${post.thumbnail_url || 'images/placeholder.webp'}" 
-                                    alt="${post.title}" 
-                                    class="blog-thumbnail"
-                                    loading="lazy"
-                                    onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23e8e8e8%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22>📄</text></svg>'"
-                                >
-                            </div>
-                            <div class="blog-content">
-                                <h2 class="blog-title">${post.title}</h2>
-                                <div class="blog-meta">
-                                    <span class="blog-category">${post.category || 'General'}</span>
-                                    <span class="blog-date">${date}</span>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                }).join('');
+                renderPosts(posts);
 
             } catch (err) {
                 console.error('Error fetching posts:', err);
