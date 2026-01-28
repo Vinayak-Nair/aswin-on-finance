@@ -42,8 +42,65 @@
             </div>
         </section>
 
-        <!-- Calculators Section -->
-        <section class="calculators-section">
+        <!-- Instagram Reels Section (Moved up) -->
+        <section class="instagram-section">
+            <div class="section-container">
+                <div class="articles-header">
+                    <h2 class="section-title">Latest Reels</h2>
+                    <a href="https://www.instagram.com/aswinonfinance/" target="_blank" class="view-all-link">Follow on
+                        Instagram →</a>
+                </div>
+
+                <div class="reels-grid" id="reelsGrid">
+                    <!-- Reels loaded from the script below -->
+                </div>
+            </div>
+        </section>
+
+        <!-- NRI Mutual Funds Section -->
+        <section class="nri-mf-section">
+            <div class="section-container">
+                <div class="nri-mf-container">
+                    <div class="nri-mf-content">
+                        <span class="meta-tag">Exclusive for NRIs</span>
+                        <h2 class="section-title">Invest in India's Growth Story</h2>
+                        <p class="section-description">Mutual Funds are one of the most efficient ways for NRIs to
+                            participate in India's booming economy. We help you navigate the complexities of FEMA,
+                            taxation, and repatriation.</p>
+
+                        <div class="nri-cta">
+                            <a href="/mutualfunds" class="btn btn-primary">I'm interested</a>
+                        </div>
+                    </div>
+                    <div class="nri-mf-image">
+                        <img src="assets/images/nri-mf-banner.png" alt="NRI Mutual Funds Investing in India"
+                            class="premium-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Articles Section -->
+        <section class="articles-section">
+            <div class="section-container">
+                <div class="articles-header">
+                    <h2 class="section-title">Articles</h2>
+                    <a href="blog/index.html" class="view-all-link">View all articles →</a>
+                </div>
+                <!-- <p class="section-subtitle">Latest insights on money and finance</p> -->
+
+                <div class="articles-grid" id="articlesGrid">
+                    <!-- Posts loaded dynamically -->
+                    <div class="loading-placeholder">Loading articles...</div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Calculators Section (Moved down) -->
+        <section id="calculators" class="calculators-section">
             <div class="section-container">
                 <h2 class="section-title">Calculators</h2>
                 <p class="section-subtitle">Smart financial tools for NRIs</p>
@@ -127,23 +184,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Articles Section -->
-        <section class="articles-section">
-            <div class="section-container">
-                <h2 class="section-title">Articles</h2>
-                <p class="section-subtitle">Latest insights on money and finance</p>
-
-                <div class="articles-grid" id="articlesGrid">
-                    <!-- Posts loaded dynamically -->
-                    <div class="loading-placeholder">Loading articles...</div>
-                </div>
-
-                <div class="articles-more">
-                    <a href="blog/index.html" class="read-more-link">View all articles →</a>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -169,7 +209,7 @@
                     .from('posts')
                     .select('id, title, slug, excerpt, category, published_at, thumbnail_url')
                     .order('published_at', { ascending: false })
-                    .limit(2);
+                    .limit(3);
 
                 if (error) throw error;
 
@@ -186,18 +226,27 @@
                     });
                     const postUrl = post.slug ? `blog/post.html?slug=${post.slug}` : `blog/post.html?id=${post.id}`;
 
+                    // Fix image path: if it starts with 'images/', prepend 'blog/'
+                    let thumbUrl = post.thumbnail_url || 'blog/images/placeholder.webp';
+                    if (thumbUrl.startsWith('images/')) {
+                        thumbUrl = 'blog/' + thumbUrl;
+                    }
+
                     return `
                         <a href="${postUrl}" class="article-card">
                             <div class="article-thumbnail">
-                                <img src="${post.thumbnail_url || 'blog/images/placeholder.webp'}" 
+                                <img src="${thumbUrl}" 
                                      alt="${post.title}"
                                      loading="lazy"
                                      onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2230%22>📄</text></svg>'">
                             </div>
                             <div class="article-content">
-                                <span class="article-category">${post.category || 'General'}</span>
                                 <h3 class="article-title">${post.title}</h3>
-                                <span class="article-date">${date}</span>
+                                <div class="article-meta">
+                                    <span class="article-category">${post.category || 'General'}</span>
+                                    <span class="meta-dot"> — </span>
+                                    <span class="article-date">${date}</span>
+                                </div>
                             </div>
                         </a>
                     `;
@@ -210,6 +259,45 @@
         }
 
         loadRecentArticles();
+
+        // --- INSTAGRAM REELS CONFIGURATION ---
+        // To update your reels, just swap the links and captions below!
+        const REELS_DATA = [
+            {
+                url: "https://www.instagram.com/aswinonfinance/reel/DUDLbarCPsU/",
+                thumb: "blog/images/reels/reel-1.jpg",
+                caption: "German cars will get cheaper! India-EU trade deal."
+            },
+            {
+                url: "https://www.instagram.com/aswinonfinance/reel/DUBAknWkl9J/",
+                thumb: "blog/images/reels/reel-2.jpg",
+                caption: "Slice Savings Account: 5.25% interest & more."
+            },
+            {
+                url: "https://www.instagram.com/aswinonfinance/reel/DT5IWQpkoao/",
+                thumb: "blog/images/reels/reel-3.jpg",
+                caption: "Million vs Billion: Financial education."
+            }
+        ];
+
+        function loadInstagramReels() {
+            const grid = document.getElementById('reelsGrid');
+            grid.innerHTML = REELS_DATA.map(reel => `
+                <a href="${reel.url}" target="_blank" class="reel-card">
+                    <div class="reel-thumbnail">
+                        <img src="${reel.thumb}" alt="${reel.caption}" loading="lazy">
+                        <div class="reel-play-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="reel-content">
+                        <p class="reel-caption">${reel.caption}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        loadInstagramReels();
     </script>
 </body>
 
