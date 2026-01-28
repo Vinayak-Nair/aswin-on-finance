@@ -89,12 +89,19 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 400;
     color: var(--color-text-secondary);
-    line-height: 1.5;
-    margin-bottom: 2.5rem;
+    line-height: 1.6;
     max-width: 90%;
+}
+
+.hero-subtitle p {
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle p:last-child {
+    margin-bottom: 0;
 }
 
 /* CTA Button */

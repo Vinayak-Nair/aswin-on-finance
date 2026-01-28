@@ -27,10 +27,13 @@
             <div class="hero-container">
                 <div class="hero-text">
                     <h1 class="hero-title">Aswin on Finance</h1>
-                    <p class="hero-subtitle">Financial insights and guidance for NRIs — taxes, investments, and banking
-                        made simple.</p>
-                    <div class="hero-cta-wrapper">
-                        <a href="blog/index.html" class="cta-button">Read Articles</a>
+                    <div class="hero-subtitle">
+                        <p>Money plays a big role in our lives, but most of us are never taught how to handle it
+                            properly.</p>
+                        <p>I started Aswin on Finance to explain money in a simple, practical way, without making it
+                            complicated.</p>
+                        <p>At the end of the day, this is about feeling more in control of your finances, and less
+                            anxious about them.</p>
                     </div>
                 </div>
                 <div class="hero-visual">
@@ -138,41 +141,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script type="module">
-        // Prefetch blog data on hover for instant navigation
-        import { supabase } from './js/supabase-client.js';
-
-        const ctaButton = document.querySelector('.cta-button');
-        let prefetchDone = false;
-
-        async function prefetchBlogPosts() {
-            if (prefetchDone || sessionStorage.getItem('blogPosts')) return;
-            prefetchDone = true;
-
-            try {
-                const { data: posts, error } = await supabase
-                    .from('posts')
-                    .select('id, title, slug, excerpt, category, published_at, thumbnail_url')
-                    .order('published_at', { ascending: false });
-
-                if (!error && posts) {
-                    sessionStorage.setItem('blogPosts', JSON.stringify(posts));
-                    sessionStorage.setItem('blogPostsTime', Date.now().toString());
-                }
-            } catch (e) {
-                console.log('Prefetch failed, will load on page');
-            }
-        }
-
-        // Prefetch on hover (most common user behavior)
-        ctaButton?.addEventListener('mouseenter', prefetchBlogPosts, { once: true });
-
-        // Also prefetch on focus (keyboard navigation)
-        ctaButton?.addEventListener('focus', prefetchBlogPosts, { once: true });
-
-        // Prefetch after 2 seconds of page load as fallback
-        setTimeout(prefetchBlogPosts, 2000);
-    </script>
 </body>
 
 </html>
