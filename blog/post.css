@@ -114,33 +114,33 @@
 }
 
 .article-content p {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
 }
 
 .article-content h2 {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: var(--spacing-xl);
-    margin-bottom: var(--spacing-md);
-    color: var(--color-text-primary);
-}
-
-.article-content h3 {
-    font-size: 1.25rem;
     font-weight: 600;
     margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-sm);
     color: var(--color-text-primary);
 }
 
+.article-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-primary);
+}
+
 .article-content ul,
 .article-content ol {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     padding-left: var(--spacing-lg);
 }
 
 .article-content li {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 0.125rem;
 }
 
 .article-content strong {
