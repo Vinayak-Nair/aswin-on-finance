@@ -431,6 +431,22 @@ async function insertPost() {
     };
 
     try {
+        // Check if post already exists
+        const existingResponse = await fetch(`${supabaseUrl}/rest/v1/posts?slug=eq.${postData.slug}&select=id`, {
+            method: 'GET',
+            headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`
+            }
+        });
+
+        if (existingResponse.ok) {
+            const existingData = await existingResponse.json();
+            if (existingData.length > 0) {
+                console.log(`⚠️ Post with slug "${postData.slug}" already exists (ID: ${existingData[0].id}). Skipping insertion.`);
+                return;
+            }
+        }
         const response = await fetch(`${supabaseUrl}/rest/v1/posts`, {
             method: 'POST',
             headers: {

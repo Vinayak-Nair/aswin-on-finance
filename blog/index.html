@@ -76,7 +76,18 @@
                 return;
             }
 
-            blogList.innerHTML = posts.map(post => {
+            // Deduplicate posts based on slug
+            const seenSlugs = new Set();
+            const uniquePosts = posts.filter(post => {
+                const identifier = post.slug || post.id;
+                if (seenSlugs.has(identifier)) {
+                    return false;
+                }
+                seenSlugs.add(identifier);
+                return true;
+            });
+
+            blogList.innerHTML = uniquePosts.map(post => {
                 const date = formatDate(post.published_at);
                 const postUrl = post.slug ? `post.html?slug=${post.slug}` : `post.html?id=${post.id}`;
 

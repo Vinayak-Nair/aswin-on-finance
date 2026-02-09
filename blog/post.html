@@ -82,7 +82,7 @@
             }
 
             try {
-                let query = supabase.from('posts').select('*').single();
+                let query = supabase.from('posts').select('*').limit(1);
 
                 if (slug) {
                     query = query.eq('slug', slug);
@@ -90,10 +90,12 @@
                     query = query.eq('id', id);
                 }
 
-                const { data: post, error } = await query;
+                const { data: posts, error } = await query;
 
                 if (error) throw error;
-                if (!post) throw new Error('Post not found');
+                if (!posts || posts.length === 0) throw new Error('Post not found');
+
+                const post = posts[0];
 
                 // Update Page Title
                 document.title = `${post.title} | Aswin on Finance`;
