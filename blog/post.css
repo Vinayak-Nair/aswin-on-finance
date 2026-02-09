@@ -127,7 +127,7 @@
 
 /* Remove top margin when h2 directly follows an hr */
 .article-content hr+h2 {
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .article-content h3 {
@@ -147,7 +147,7 @@
 }
 
 .article-content hr {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     border: none;
     border-top: 1px solid #e5e7eb;
 }
