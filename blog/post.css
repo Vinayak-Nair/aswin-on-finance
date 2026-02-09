@@ -114,23 +114,42 @@
 }
 
 .article-content p {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 0.5rem;
 }
 
 .article-content h2 {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-top: var(--spacing-lg);
-    margin-bottom: var(--spacing-sm);
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
     color: var(--color-text-primary);
+}
+
+/* Remove top margin when h2 directly follows an hr */
+.article-content hr+h2 {
+    margin-top: 0.75rem;
 }
 
 .article-content h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-xs);
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
     color: var(--color-text-primary);
+}
+
+.article-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-text-primary);
+}
+
+.article-content hr {
+    margin: 1rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
 }
 
 .article-content ul,
