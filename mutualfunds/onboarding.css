@@ -552,10 +552,10 @@ body {
     color: var(--color-text-secondary);
 }
 
-/* Phone Input */
-.phone-input {
+/* Phone Input with Country Code */
+.phone-input-wrapper {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     background: #fafafa;
     border: 2px solid #eee;
     border-radius: 12px;
@@ -563,25 +563,77 @@ body {
     transition: border-color 0.2s ease;
 }
 
-.phone-input:focus-within {
+.phone-input-wrapper:focus-within {
     border-color: var(--color-accent);
 }
 
-.country-code {
-    padding: 1rem;
+.country-code-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem 0 1rem;
     background: #f0f0f0;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+    border-right: 1px solid #ddd;
+    min-width: 60px;
+}
+
+.phone-with-prefix {
+    flex: 1;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+.phone-with-prefix:disabled {
+    background: #f5f5f5 !important;
+    cursor: not-allowed;
     color: var(--color-text-secondary);
 }
 
-.phone-input input {
-    flex: 1;
-    padding: 1rem;
-    border: none;
-    background: transparent;
-    font-family: inherit;
-    font-size: 1rem;
-    outline: none;
+/* Override Checkbox */
+.override-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    user-select: none;
+    padding: 0.5rem 0;
+}
+
+.override-checkbox input {
+    display: none;
+}
+
+.checkbox-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.override-checkbox input:checked+.checkbox-box {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.override-checkbox input:checked+.checkbox-box::after {
+    content: '✓';
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.checkbox-text {
+    font-weight: 500;
 }
 
 /* Input Groups for Personal Details */
@@ -629,6 +681,30 @@ body {
     color: var(--color-text-secondary);
     margin-top: 0.25rem;
 }
+
+/* Validation Error States */
+.text-input.error,
+.select-input.error {
+    border-color: #e74c3c;
+    background: #fef5f5;
+}
+
+.text-input.error:focus,
+.select-input.error:focus {
+    border-color: #e74c3c;
+}
+
+.input-error {
+    font-size: 0.75rem;
+    color: #e74c3c;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.input-error.visible {
+    display: block;
+}
+
 
 
 /* ========================================

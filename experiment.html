@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Experiment | Aswin on Finance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/experiment.css">
+    <!-- PostHog Analytics -->
+    <script>
+        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+        posthog.init('phc_7EZHmBCGTKA2i60owBepTfAPT2IhaHhlXTMFXlNcnCY', {
+            api_host: 'https://us.i.posthog.com',
+            loaded: function (posthog) {
+                posthog.register({
+                    'environment': (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'local' : 'production'
+                });
+            }
+        })
+    </script>
+</head>
+
+<body class="mode-night">
+
+    <main class="experiment-container">
+        <header class="experiment-header">
+            <h1 class="main-title">Scale with confidence.</h1>
+            <p class="subtitle">Handle thousands of transactions per second with consistent speed and reliability, even
+                during peak traffic periods.</p>
+
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-value">500M+</span>
+                    <span class="metric-label">API requests per day</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-value">10K+</span>
+                    <span class="metric-label">API requests per second</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-value">150K+</span>
+                    <span class="metric-label">transactions per minute</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="visualizer-section">
+            <canvas id="visualizerCanvas"></canvas>
+
+            <div class="controls-overlay">
+                <button id="pauseBtn" class="control-btn icon-btn" aria-label="Pause Animation">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="icon-pause">
+                        <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+                        <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="icon-play hidden">
+                        <path d="M5 3l14 9-14 9V3z" fill="currentColor" />
+                    </svg>
+                </button>
+
+                <div class="mode-selector">
+                    <button class="mode-btn" data-mode="dawn">Dawn</button>
+                    <button class="mode-btn" data-mode="day">Day</button>
+                    <button class="mode-btn" data-mode="dusk">Dusk</button>
+                    <button class="mode-btn active" data-mode="night">Night</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/experiment.js"></script>
+</body>
+
+</html>

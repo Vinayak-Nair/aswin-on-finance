@@ -1,0 +1,450 @@
+/**
+ * Insert Budget 2026 NRI Blog Post into Supabase
+ * Run with: node scripts/insert-budget-post.mjs
+ */
+
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://dkbbwokogdyulhfxqovs.supabase.co';
+const supabaseKey = 'sb_publishable__Am_y-u011lJ5lxBc9VPnQ_wKLPINLk';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const content = `<div class="article-summary"
+    style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #0ea5e9;">
+    <h3 style="margin-top: 0; color: #0369a1;">📋 Quick Summary</h3>
+    <p style="margin-bottom: 0.5rem;"><strong>If money is earned in India, invested in India, or sent from India, the
+            Union Budget affects it.</strong></p>
+    <p style="margin-bottom: 0;">Budget 2026 is one of the more meaningful budgets for NRIs in recent years. It
+        simplifies processes, offers a chance to clean up past mistakes with foreign assets, and opens more doors for
+        investing in India.</p>
+</div>
+
+<h2 id="property-tds">1. Selling Property in India as an NRI: TAN Headache Removed</h2>
+
+<h3>Quick Background: What is TDS and TAN?</h3>
+
+<p><strong>TDS (Tax Deducted at Source):</strong> When someone buys property from an NRI, they must cut some tax from
+    the amount they pay and deposit it with the government on the seller's behalf.</p>
+
+<p><strong>TAN (Tax Deduction and Collection Account Number):</strong> A special number separate from PAN, needed if a
+    person is deducting TDS in many situations.</p>
+
+<h3>Old Rule (Before Budget 2026)</h3>
+
+<p>If a resident individual bought property from an NRI seller, the buyer had to:</p>
+<ul>
+    <li>Apply for a TAN (separate from PAN)</li>
+    <li>Deduct TDS from the sale consideration</li>
+    <li>Deposit that TDS using TAN</li>
+    <li>File TAN-based TDS returns and comply with all related rules</li>
+</ul>
+
+<p><strong>This created problems:</strong></p>
+<ul>
+    <li>Most homebuyers only do property transactions once or twice in life, but still had to understand TAN, apply for
+        it, and handle extra forms and deadlines</li>
+    <li>Many buyers were scared of "NRI seller = heavy compliance" and either delayed the deal or backed out to find a
+        resident seller instead</li>
+</ul>
+
+<h3>New Rule After Budget 2026</h3>
+
+<div class="highlight-box"
+    style="background: #ecfdf5; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #10b981; margin: 1.5rem 0;">
+    <p style="margin: 0;"><strong>✅ Budget 2026 removes the TAN requirement for such buyers.</strong></p>
+    <p style="margin: 0.5rem 0 0 0;">The buyer will use PAN only, deduct TDS at the same applicable rate as before, and
+        deposit TDS via a simple PAN-based challan.</p>
+</div>
+
+<p><strong>Important points:</strong></p>
+<ul>
+    <li>TDS itself is still required. Only the procedure and compliance burden have been simplified.</li>
+    <li>TDS rates on NRI property sales are not reduced in this change.</li>
+</ul>
+
+<h3>Simple Example</h3>
+
+<p>Imagine an NRI is selling a flat in Bengaluru for ₹1.5 crore. The buyer is a salaried person based in India.</p>
+
+<table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+    <thead>
+        <tr style="background: #f3f4f6;">
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">Before Budget 2026</th>
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">After Budget 2026</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Apply for TAN → wait days or weeks</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Uses PAN only (no TAN needed)</td>
+        </tr>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Understand TAN-based TDS returns</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Deducts the required TDS</td>
+        </tr>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Often pay a CA to handle the process</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Deposits TDS using simple PAN-based challan</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Why This Matters to NRIs</h3>
+<ul>
+    <li>Less friction in selling property</li>
+    <li>Fewer excuses from buyers like "NRI seller means too much headache"</li>
+    <li>Better chance of smoother transactions, timely payments, and proper TDS credit appearing in your Form 26AS</li>
+</ul>
+
+<p><em>This is a process relief, not a tax rate benefit—but in property deals, process pain is often as big as the tax
+        itself.</em></p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="foreign-asset-disclosure">2. One-Time 6-Month Window to Disclose Foreign Assets and Income</h2>
+
+<p>This is crucial for NRIs and returning NRIs who:</p>
+<ul>
+    <li>Opened foreign bank accounts as students</li>
+    <li>Received RSUs/ESOPs in foreign companies</li>
+    <li>Invested in foreign funds or insurance products</li>
+    <li>Are not 100% sure if everything was correctly disclosed in Indian tax returns</li>
+</ul>
+
+<h3>What Was the Earlier Fear?</h3>
+
+<p>India has a tough law: the <strong>Black Money (Undisclosed Foreign Income and Assets) Act</strong>.</p>
+
+<p>If a person has foreign assets or income and fails to properly disclose them in Indian returns:</p>
+<ul>
+    <li>Heavy penalties</li>
+    <li>In extreme cases, prosecution (criminal cases)</li>
+</ul>
+
+<p>This especially trapped:</p>
+<ul>
+    <li>Students and young professionals who forgot about small foreign accounts</li>
+    <li>Tech employees who did not fully understand disclosure rules for ESOPs/RSUs</li>
+    <li>Returning NRIs who assumed "foreign accounts are small, no one cares"</li>
+</ul>
+
+<h3>What Budget 2026 Introduces</h3>
+
+<div class="highlight-box"
+    style="background: #fef3c7; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #f59e0b; margin: 1.5rem 0;">
+    <p style="margin: 0;"><strong>🔔 Budget 2026 provides a one-time, 6-month disclosure window for foreign income and
+            assets.</strong></p>
+</div>
+
+<h4>Category A: Undisclosed Foreign Income & Assets up to ₹1 Crore</h4>
+<ul>
+    <li><strong>Case:</strong> The foreign asset or income was never disclosed at all in any return</li>
+    <li><strong>Condition:</strong> Total value up to ₹1 crore</li>
+    <li><strong>Cost to regularise:</strong> 30% tax + 30% penalty = <strong>60% total outgo</strong></li>
+    <li><strong>Benefit:</strong> Full immunity from prosecution under the Black Money Act</li>
+</ul>
+
+<h4>Category B: Asset Not Reported, but Income Already Taxed (up to ₹5 Crore)</h4>
+<ul>
+    <li><strong>Case:</strong> The income from the asset was included in the Indian return, but the asset itself was not
+        shown in Schedule FA (foreign asset schedule)</li>
+    <li><strong>Example:</strong> Foreign salary was taxed in India, but the foreign bank account holding that salary
+        balance was not reported</li>
+    <li><strong>Limit:</strong> Total foreign assets up to ₹5 crore</li>
+    <li><strong>Cost:</strong> <strong>₹1 lakh flat fee</strong></li>
+    <li><strong>Benefit:</strong> Relief from penalty and prosecution for this kind of non-reporting</li>
+</ul>
+
+<h4>Relief for Very Small Foreign Assets</h4>
+<p>Very small foreign movable assets (non-immovable) up to around ₹20 lakh are effectively immune from prosecution,
+    recognising that small balances are often missed accidentally.</p>
+
+<h3>Who Should Seriously Look at This?</h3>
+<ul>
+    <li>Returning NRIs with old foreign bank accounts that were never declared</li>
+    <li>Residents who earlier worked abroad and have small brokerage accounts, ESOP/RSU holdings, or dormant foreign
+        accounts</li>
+    <li>Anyone who realises: "There is something abroad; it is not properly shown in Schedule FA; better to clean it up
+        while there is an official window"</li>
+</ul>
+
+<p><em>This scheme is not cheap (especially Category A), but it removes the fear of future Black Money Act action, which
+        can be far more painful.</em></p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="foreign-income-exemption">3. 5-Year Tax Exemption on Foreign Income for Certain Returning/Visiting NRIs</h2>
+
+<h3>Normal Residency Rule (Super Simplified)</h3>
+<p>Under regular rules, if a person stays in India for 182 days or more in a financial year, they may become a resident
+    for tax purposes. Once resident, India can tax global income (not just Indian income).</p>
+
+<p>For NRIs who work across countries, this is scary: taking a long assignment in India could mean salary from foreign
+    employers, overseas interest/dividends, all become taxable in India too.</p>
+
+<h3>What Budget 2026 Does</h3>
+
+<div class="highlight-box"
+    style="background: #ede9fe; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #8b5cf6; margin: 1.5rem 0;">
+    <p style="margin: 0;"><strong>🌍 Special carve-out for certain skilled NRIs and foreign professionals:</strong></p>
+    <p style="margin: 0.5rem 0 0 0;">For 5 years from the date of taking up work in India, their foreign income will be
+        exempt from Indian tax, even if they satisfy residency conditions.</p>
+</div>
+
+<h4>Conditions (Broadly):</h4>
+<ul>
+    <li>The person should have been non-resident for at least 5 continuous years before coming to India</li>
+    <li>They come to India to work under a government-notified scheme, project, or sector (likely high-tech, strategic,
+        or priority areas)</li>
+</ul>
+
+<h4>Important Clarifications:</h4>
+<ul>
+    <li>This is <strong>not a blanket benefit</strong> for every NRI who comes back</li>
+    <li>Applies only to people working on specific, notified projects/sectors</li>
+    <li>Only foreign income gets exempt; income sourced in India (salary paid in India, rent from Indian property,
+        interest from NRO, etc.) will still be taxable</li>
+</ul>
+
+<h3>Why This is Important for NRIs</h3>
+<p>Encourages highly skilled NRIs to take up longer projects in India and contribute expertise here—without fear that
+    all foreign savings and income will suddenly face Indian tax.</p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="investment-limits">4. NRIs and Other Overseas Individuals Can Own More of Indian Companies</h2>
+
+<h3>Some Terminology</h3>
+<ul>
+    <li><strong>NRI / OCI:</strong> Non-Resident Indian / Overseas Citizen of India</li>
+    <li><strong>PROI (Person Resident Outside India):</strong> Anyone who is not a resident in India – includes NRIs,
+        OCIs, and foreign nationals</li>
+    <li><strong>PIS (Portfolio Investment Scheme):</strong> A route for NRIs to directly buy and sell shares of Indian
+        companies through designated banks</li>
+</ul>
+
+<h3>Old Rules (Simplified)</h3>
+<p>For investments via the NRI portfolio route:</p>
+<ul>
+    <li><strong>Individual limit</strong> for one NRI in one company: Typically <strong>5%</strong> of the paid-up
+        capital</li>
+    <li><strong>Aggregate limit</strong> for all NRIs/OCIs together: Default <strong>10%</strong> (could be raised to
+        24% by shareholder approval)</li>
+</ul>
+
+<h3>New Rules in Budget 2026</h3>
+
+<table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+    <thead>
+        <tr style="background: #f3f4f6;">
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">Limit Type</th>
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">Before</th>
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">After Budget 2026</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Individual limit per company</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">5%</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;"><strong>10%</strong></td>
+        </tr>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Aggregate limit (all non-residents)</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">10% (default)</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;"><strong>24%</strong> (default)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>Additional changes:</strong></p>
+<ul>
+    <li>PIS-like portfolio investment access is now more clearly available not only to NRIs/OCIs but to wider PROIs</li>
+    <li>PROIs can more easily access Portfolio Management Services (PMS) in India without always needing complex FPI
+        registrations</li>
+</ul>
+
+<h3>What This Means in Plain Language</h3>
+<p>NRIs who like to pick Indian stocks can build larger positions in favourite companies before hitting regulatory caps.
+    This signals that India wants deeper participation from the diaspora and global investors—more capital into Indian
+    markets, but via clean, regulated channels.</p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="new-income-tax-act">5. New Income Tax Act 2025: Clearer "Special Regime" for NRIs</h2>
+
+<h3>Big Picture: A New Tax Law</h3>
+<p>India is replacing the old Income-tax Act, 1961 with a brand-new <strong>Income Tax Act, 2025</strong>, which will
+    apply from <strong>1 April 2026</strong> (i.e., from FY 2026–27).</p>
+
+<p>NRIs are directly affected because the new Act reorganises all the special rules, rates, and benefits applicable to
+    non-residents.</p>
+
+<h3>What Changes for NRIs?</h3>
+<ul>
+    <li>There is a "Special Tax Regime" for NRIs that was earlier scattered across many sections; now it is consolidated
+        and made more systematic</li>
+    <li>Budget 2026 mainly focuses on clarity and simplification, not on slashing rates</li>
+    <li>Tries to reduce disputes by writing clearer definitions and rules</li>
+</ul>
+
+<h3>Old vs New (Conceptually)</h3>
+
+<table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+    <thead>
+        <tr style="background: #f3f4f6;">
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">Earlier</th>
+            <th style="padding: 0.75rem; text-align: left; border: 1px solid #e5e7eb;">With New Act</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Law evolved over decades, with NRIs added in bits
+                and pieces</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">One integrated law, with clearer special regime
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Many grey zones, leading to litigation</td>
+            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Better guidance on definitions and scope</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><em>From FY 2026–27, NRIs do not necessarily get lower tax rates, but the rules become more organised and easier to
+        understand.</em></p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="revised-return">6. More Time to Fix Mistakes in Tax Returns (Including NRI Returns)</h2>
+
+<h3>Old Timelines</h3>
+<ul>
+    <li><strong>Filing due date:</strong> Most salaried and simple-income taxpayers: 31 July</li>
+    <li><strong>Revised return deadline:</strong> Up to 31 December of the same assessment year</li>
+</ul>
+
+<p>For NRIs, this was tight because they may wait for foreign tax residency certificates, final foreign tax documents,
+    and may discover late that Schedule FA is incomplete or foreign tax credit computations need correction.</p>
+
+<h3>New Rules in Budget 2026</h3>
+
+<div class="highlight-box"
+    style="background: #ecfdf5; padding: 1.25rem; border-radius: 10px; border-left: 4px solid #10b981; margin: 1.5rem 0;">
+    <p style="margin: 0;"><strong>📅 Revised return deadline extended from 31 December to 31 March</strong> of the
+        assessment year.</p>
+    <p style="margin: 0.5rem 0 0 0;">A small fee (e.g., ₹1,000 or ₹5,000 based on income) applies if filed after 31
+        December—but it's still far better than being stuck with a wrong original return.</p>
+</div>
+
+<h3>Why This Helps NRIs</h3>
+<ul>
+    <li>More time to collect foreign documents and reconcile global income</li>
+    <li>Correct missing or wrong details in Schedule FA</li>
+    <li>Properly claim foreign tax credit once foreign returns are finalised</li>
+</ul>
+
+<p>For many NRIs, life is spread across time zones and financial years; this extra 3-month buffer can make the
+    difference between smooth compliance vs chronic errors and notices.</p>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="summary">7. Putting It All Together: What is the Overall Message for NRIs?</h2>
+
+<p>Looking at all the changes together, Budget 2026 sends a clear signal to NRIs:</p>
+
+<div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+    <h4 style="margin-top: 0; color: #0f172a;">🟢 "Genuine NRIs should find it easier to do things right."</h4>
+    <ul style="margin-bottom: 1rem;">
+        <li>No TAN needed for buyers when purchasing property from NRIs</li>
+        <li>Longer time to correct returns</li>
+        <li>Clearer, more organised law under the new Income Tax Act 2025</li>
+    </ul>
+
+    <h4 style="color: #0f172a;">🟡 "Serious mistakes on foreign assets can be fixed – but only now, and not cheaply."
+    </h4>
+    <ul style="margin-bottom: 1rem;">
+        <li>A 6-month one-time window to disclose foreign income/assets up to ₹1 crore (or ₹5 crore for the second
+            category) with tax + penalty/fee, in exchange for immunity</li>
+    </ul>
+
+    <h4 style="color: #0f172a;">🔵 "India wants more NRI and foreign capital in markets and more talent on the ground."
+    </h4>
+    <ul style="margin-bottom: 0;">
+        <li>Higher shareholding limits for NRIs/PROIs in listed companies</li>
+        <li>Easier PMS access</li>
+        <li>5-year foreign income exemption for eligible professionals working on notified projects</li>
+    </ul>
+</div>
+
+<hr style="margin: 3rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<h2 id="checklist">Practical Checklist for NRI Readers</h2>
+
+<div
+    style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0;">
+    <h3 style="margin-top: 0;">📋 Action Items Based on Your Situation</h3>
+
+    <h4>✅ Planning to sell property in India?</h4>
+    <ul>
+        <li>Explain to the buyer that no TAN is needed now, just PAN-based TDS compliance</li>
+        <li>Still discuss with a CA about correct TDS rate and capital gains</li>
+    </ul>
+
+    <h4>✅ Old foreign assets or incomes not perfectly disclosed?</h4>
+    <ul>
+        <li>Consider talking to a CA about the 6-month disclosure scheme to decide whether to use it</li>
+    </ul>
+
+    <h4>✅ Considering a medium-term move to India for a special project?</h4>
+    <ul>
+        <li>If the role fits government-notified sectors, explore whether the 5-year foreign income exemption can apply
+        </li>
+    </ul>
+
+    <h4>✅ Active in Indian stock markets as an NRI?</h4>
+    <ul>
+        <li>Revisit concentration limits and strategy, since ownership caps have gone up</li>
+    </ul>
+
+    <h4>✅ Struggling with return corrections every year?</h4>
+    <ul>
+        <li>Use the extended revised return window till 31 March to fix foreign asset disclosures and foreign tax credit
+            claims properly</li>
+    </ul>
+</div>
+
+<hr style="margin: 2rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+<p style="text-align: center; color: #6b7280; font-style: italic;">
+    This article provides general information only. Please consult a qualified tax professional for advice specific to
+    your situation.
+</p>`;
+
+async function insertPost() {
+    console.log('Inserting Budget 2026 NRI blog post...');
+
+    const { data, error } = await supabase
+        .from('posts')
+        .insert([{
+            title: 'Budget 2026 for NRIs – Every Important Change Explained in Simple English',
+            slug: 'budget-2026-nri-guide',
+            excerpt: 'If money is earned in India, invested in India, or sent from India, the Union Budget affects it. Here are all 7 key changes that matter to NRIs.',
+            category: 'NRI Taxation',
+            thumbnail_url: 'images/budget-2026-nri.jpg',
+            published_at: new Date().toISOString(),
+            content: content
+        }])
+        .select();
+
+    if (error) {
+        console.error('Error inserting post:', error);
+        process.exit(1);
+    }
+
+    console.log('✅ Post inserted successfully!');
+    console.log('Post ID:', data[0].id);
+    console.log('Slug:', data[0].slug);
+    console.log('\nView at: /blog/post.html?slug=budget-2026-nri-guide');
+}
+
+insertPost();

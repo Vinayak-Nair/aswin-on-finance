@@ -328,6 +328,7 @@
                     <div class="input-group">
                         <label class="input-label">Full name</label>
                         <input type="text" id="user-name" placeholder="Enter your full name" class="text-input">
+                        <span id="name-error" class="input-error">Please enter at least 2 characters</span>
                     </div>
 
                     <div class="input-group">
@@ -350,60 +351,36 @@
                             <option value="BH">Bahrain</option>
                             <option value="OM">Oman</option>
                             <option value="NZ">New Zealand</option>
+                            <option value="IN">India</option>
                             <option value="OTHER">Other</option>
                         </select>
                     </div>
 
-                    <!-- Contact Section (merged) -->
-                    <div class="contact-section">
-                        <label class="input-label">How should we reach you?</label>
-
-                        <div class="contact-options">
-                            <label class="contact-option">
-                                <input type="radio" name="contact" value="whatsapp" checked
-                                    onchange="toggleContactInput()">
-                                <span class="contact-card">
-                                    <span class="contact-icon">📱</span>
-                                    <span class="contact-text">
-                                        <strong>WhatsApp</strong>
-                                        <small>Quick responses</small>
-                                    </span>
-                                </span>
-                            </label>
-                            <label class="contact-option">
-                                <input type="radio" name="contact" value="email" onchange="toggleContactInput()">
-                                <span class="contact-card">
-                                    <span class="contact-icon">📧</span>
-                                    <span class="contact-text">
-                                        <strong>Email</strong>
-                                        <small>Detailed guidance</small>
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-
-                        <!-- WhatsApp Input -->
-                        <div id="whatsapp-input" class="contact-input-field">
-                            <div class="phone-input">
-                                <span class="country-code">+</span>
-                                <input type="tel" id="phone-number" placeholder="Country code + number"
-                                    class="phone-number-input">
-                            </div>
-                            <small class="input-hint">Include country code (e.g., 1 for US, 971 for UAE)</small>
-                        </div>
-
-                        <!-- Email Input -->
-                        <div id="email-input" class="contact-input-field hidden">
-                            <input type="email" id="user-email" placeholder="Enter your email address"
-                                class="text-input">
-                        </div>
+                    <div class="input-group">
+                        <label class="override-checkbox">
+                            <input type="checkbox" id="indian-number-override">
+                            <span class="checkbox-box"></span>
+                            <span class="checkbox-text">I'm using an Indian number</span>
+                        </label>
                     </div>
+
+                    <!-- WhatsApp Number Section -->
+                    <div class="input-group">
+                        <label class="input-label">Your WhatsApp number</label>
+                        <div class="phone-input-wrapper">
+                            <span id="country-code-prefix" class="country-code-prefix">+</span>
+                            <input type="tel" id="phone-number" placeholder="Select country first"
+                                class="text-input phone-with-prefix" disabled>
+                        </div>
+                        <span id="phone-error" class="input-error">Please enter a valid phone number</span>
+                    </div>
+
                 </div>
 
                 <div class="step-actions">
                     <button class="btn-secondary" onclick="goBackToStep3()">Back</button>
-                    <button class="btn-primary" id="final-submit-btn" disabled onclick="submitDetails()">Get My
-                        Personalized Path</button>
+                    <button class="btn-primary" id="final-submit-btn" disabled onclick="submitDetails()">Book a call
+                        with Aswin</button>
                 </div>
             </div>
         </section>
@@ -556,48 +533,100 @@
             }
         }
 
-        // Expose toggle contact input globally manually or by attaching to window if needed by HTML onchange,
-        // but it's better to add listeners in JS. For now, matching the window pattern.
-        window.toggleContactInput = function () {
-            const contactMethod = document.querySelector('input[name="contact"]:checked').value;
-            const whatsappInput = document.getElementById('whatsapp-input');
-            const emailInput = document.getElementById('email-input');
+        // Country code mapping
+        const countryCodes = {
+            'US': '+1',
+            'UK': '+44',
+            'UAE': '+971',
+            'SG': '+65',
+            'AU': '+61',
+            'CA': '+1',
+            'DE': '+49',
+            'NL': '+31',
+            'HK': '+852',
+            'MY': '+60',
+            'SA': '+966',
+            'QA': '+974',
+            'KW': '+965',
+            'BH': '+973',
+            'OM': '+968',
+            'NZ': '+64',
+            'IN': '+91',
+            'OTHER': '+'
+        };
 
-            if (contactMethod === 'whatsapp') {
-                whatsappInput.classList.remove('hidden');
-                emailInput.classList.add('hidden');
+        // Handle country selection and Indian number override
+        const countrySelect = document.getElementById('user-country');
+        const indianNumberOverride = document.getElementById('indian-number-override');
+        const phoneInput = document.getElementById('phone-number');
+        const countryCodePrefix = document.getElementById('country-code-prefix');
+
+        function updatePhonePrefix() {
+            const country = countrySelect.value;
+            const isIndianOverride = indianNumberOverride.checked;
+
+            if (isIndianOverride) {
+                countryCodePrefix.textContent = '+91';
+                phoneInput.disabled = false;
+                phoneInput.placeholder = 'Enter your number';
+            } else if (country && countryCodes[country]) {
+                countryCodePrefix.textContent = countryCodes[country];
+                phoneInput.disabled = false;
+                phoneInput.placeholder = 'Enter your number';
             } else {
-                whatsappInput.classList.add('hidden');
-                emailInput.classList.remove('hidden');
+                countryCodePrefix.textContent = '+';
+                phoneInput.disabled = true;
+                phoneInput.placeholder = 'Select country first';
+                phoneInput.value = '';
             }
             validateStep4();
         }
 
+        countrySelect.addEventListener('change', updatePhonePrefix);
+        indianNumberOverride.addEventListener('change', updatePhonePrefix);
+
         // Add event listeners for Step 4 validation
         document.getElementById('user-name').addEventListener('input', validateStep4);
-        document.getElementById('user-country').addEventListener('change', validateStep4);
+        document.getElementById('user-name').addEventListener('blur', () => validateField('name'));
         document.getElementById('phone-number').addEventListener('input', validateStep4);
-        document.getElementById('user-email').addEventListener('input', validateStep4);
+        document.getElementById('phone-number').addEventListener('blur', () => validateField('phone'));
+
+        // Validation patterns
+        const patterns = {
+            name: /^.{2,}$/,  // At least 2 characters
+            phone: /^[0-9]{6,14}$/  // 6-14 digits (country code is separate)
+        };
+
+        function validateField(field) {
+            const nameInput = document.getElementById('user-name');
+            const phoneInput = document.getElementById('phone-number');
+
+            if (field === 'name') {
+                const name = nameInput.value.trim();
+                const isValid = patterns.name.test(name);
+                nameInput.classList.toggle('error', name && !isValid);
+                document.getElementById('name-error').classList.toggle('visible', name && !isValid);
+            } else if (field === 'phone') {
+                const phone = phoneInput.value.trim();
+                const isValid = patterns.phone.test(phone);
+                phoneInput.classList.toggle('error', phone && !isValid);
+                document.getElementById('phone-error').classList.toggle('visible', phone && !isValid);
+            }
+        }
 
         function validateStep4() {
             const name = document.getElementById('user-name').value.trim();
             const country = document.getElementById('user-country').value;
-            const contactMethod = document.querySelector('input[name="contact"]:checked').value;
             const phone = document.getElementById('phone-number').value.trim();
-            const email = document.getElementById('user-email').value.trim();
 
-            let isValid = false;
+            const nameValid = patterns.name.test(name);
+            const phoneValid = patterns.phone.test(phone);
 
-            if (name && country) {
-                if (contactMethod === 'whatsapp' && phone) {
-                    isValid = true;
-                } else if (contactMethod === 'email' && email) {
-                    isValid = true;
-                }
-            }
+            const isValid = nameValid && country && phoneValid;
 
             document.getElementById('final-submit-btn').disabled = !isValid;
         }
+
 
         async function submitDetails() {
             const submitBtn = document.getElementById('final-submit-btn');
@@ -606,15 +635,13 @@
 
             formData.name = document.getElementById('user-name').value;
             formData.country = document.getElementById('user-country').value;
-            formData.contact = document.querySelector('input[name="contact"]:checked').value;
+            formData.contact = 'whatsapp';
 
-            if (formData.contact === 'whatsapp') {
-                formData.phone = document.getElementById('phone-number').value;
-                formData.email = null;
-            } else {
-                formData.email = document.getElementById('user-email').value;
-                formData.phone = null;
-            }
+            // Construct full phone with country code
+            const countryCode = document.getElementById('country-code-prefix').textContent;
+            const phoneNumber = document.getElementById('phone-number').value;
+            formData.phone = countryCode + phoneNumber;
+            formData.email = null;
 
             // Prepare payload matching Supabase table structure
             const payload = {
@@ -629,6 +656,7 @@
                 email: formData.email,
                 submitted_at: new Date().toISOString()
             };
+
 
             console.log('Submitting to Supabase:', payload);
 
@@ -648,7 +676,7 @@
             } catch (error) {
                 console.error('Error submitting lead:', error);
                 alert('There was an error submitting your details. Please try again.');
-                submitBtn.textContent = 'Submit Application';
+                submitBtn.textContent = 'Book a call with Aswin';
                 submitBtn.disabled = false;
             }
         }

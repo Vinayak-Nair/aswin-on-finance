@@ -1,0 +1,261 @@
+:root {
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+
+    /* Semantic Colors */
+    --text-primary: #0a2540;
+    --text-secondary: #425466;
+    --text-accent: #635bff;
+
+    /* Mode Gradients (Base Defaults) */
+    --bg-dawn: linear-gradient(180deg, #ffffff 0%, #fff0e3 50%, #fad0c4 100%);
+    --bg-day: linear-gradient(180deg, #f6f9fc 0%, #eef2f5 100%);
+    --bg-dusk: linear-gradient(180deg, #fdfbfb 0%, #ebedee 100%);
+    --bg-night: linear-gradient(180deg, #0a2540 0%, #1a1f36 100%);
+
+    /* Active colors - updated by JS/Classes */
+    --current-bg: var(--bg-dawn);
+    --current-accent: #ff9a9e;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--current-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    transition: background 1.5s ease, color 0.5s ease;
+    overflow-x: hidden;
+}
+
+/* Specific Modes */
+body.mode-dawn {
+    --current-bg: linear-gradient(to bottom, #ffffff 0%, #ffe2d9 40%, #ffc3bd 100%);
+    --text-primary: #3a2828;
+    --text-secondary: #6b5555;
+    --line-color: rgba(255, 100, 100, 0.4);
+}
+
+body.mode-day {
+    --current-bg: linear-gradient(to bottom, #ffffff 0%, #f6f9fc 100%);
+    --text-primary: #0a2540;
+    --text-secondary: #425466;
+    --line-color: rgba(99, 91, 255, 0.2);
+}
+
+body.mode-dusk {
+    --current-bg: linear-gradient(to bottom, #2c3e50 0%, #fd746c 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #ffecd2;
+    --line-color: rgba(255, 200, 150, 0.4);
+}
+
+body.mode-night {
+    /* Deep navy matching the reference image */
+    --current-bg: #0a1128;
+    --text-primary: #ffffff;
+    --text-secondary: #a3acb9;
+    /* Soft grey for the subtitle */
+    --line-color: rgba(100, 200, 255, 0.3);
+}
+
+
+/* Layout */
+.experiment-container {
+    padding: 6rem 2rem;
+    /* More top padding */
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.experiment-header {
+    max-width: 800px;
+}
+
+/* Typography Overrides */
+.main-title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 500;
+    /* Lighter weight as per screenshot */
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    /* Explicitly white */
+}
+
+.main-title .alpha {
+    opacity: 0.7;
+    /* "Scale with confidence" part could be slightly different if needed, but per screenshot it's uniform */
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    /* Smaller, punchier */
+    color: rgba(255, 255, 255, 0.7);
+    /* Distinct grey */
+    line-height: 1.5;
+    max-width: 650px;
+    margin-bottom: 4rem;
+    font-weight: 400;
+}
+
+/* Metrics */
+.metrics-grid {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Visualizer */
+.visualizer-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60vh;
+    z-index: -1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+    /* Let clicks pass through to controls */
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Controls */
+.controls-overlay {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 0.75rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+    z-index: 100;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.mode-dusk .control-btn:hover,
+.mode-night .control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.icon-play.hidden,
+.icon-pause.hidden {
+    display: none;
+}
+
+.mode-selector {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.25rem;
+    border-radius: 99px;
+}
+
+.mode-dusk .mode-selector,
+.mode-night .mode-selector {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mode-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: #ffffff;
+    color: #0a2540;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-dusk .mode-btn.active,
+.mode-night .mode-btn.active {
+    background: #425466;
+    /* Darker bg for light theme active state */
+    color: #fff;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+
+    .metrics-grid {
+        gap: 2rem;
+    }
+
+    .controls-overlay {
+        bottom: 1rem;
+        right: 50%;
+        transform: translateX(50%);
+        width: 90%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
