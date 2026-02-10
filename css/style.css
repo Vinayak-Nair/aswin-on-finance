@@ -195,6 +195,8 @@ body {
     z-index: 20;
     background: var(--color-bg);
     padding: 6rem 2rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
 }
 
 .section-container {
@@ -400,6 +402,8 @@ body {
 .instagram-section {
     background: var(--color-bg-subtle);
     padding: 6rem 2rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 800px;
 }
 
 .reels-grid {

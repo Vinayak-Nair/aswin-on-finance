@@ -8,29 +8,11 @@
     <meta name="description"
         content="Financial insights and guidance for NRIs - taxes, investments, and banking made simple.">
 
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="blog/images/hero-bg.webp" fetchpriority="high">
-
-    <!-- Optimized font loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Preload critical font -->
+    <link rel="preload" href="/fonts/Outfit-Variable.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css?v=3">
-
-    <!-- PostHog Analytics -->
-    <script>
-        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
-        posthog.init('phc_7EZHmBCGTKA2i60owBepTfAPT2IhaHhlXTMFXlNcnCY', {
-            api_host: 'https://us.i.posthog.com',
-            loaded: function (posthog) {
-                posthog.register({
-                    'environment': (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'local' : 'production'
-                });
-            }
-        })
-    </script>
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 
 <body>
@@ -50,7 +32,8 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <img src="assets/images/aswin-profile.jpg" alt="Aswin" class="hero-profile-image">
+                    <img src="assets/images/aswin-profile.jpg" alt="Aswin" class="hero-profile-image"
+                        fetchpriority="high" width="809" height="1024">
                 </div>
             </div>
         </section>
@@ -72,8 +55,8 @@
                         </div>
                     </div>
                     <div class="nri-mf-image">
-                        <img src="assets/images/nri-mf-banner.png" alt="NRI Mutual Funds Investing in India"
-                            class="premium-image">
+                        <img src="assets/images/nri-mf-banner.webp" alt="NRI Mutual Funds Investing in India"
+                            class="premium-image" width="1024" height="1024" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -212,20 +195,14 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script type="module">
-        import { supabase } from './js/supabase-client.js';
-
+    <script>
         async function loadRecentArticles() {
             const grid = document.getElementById('articlesGrid');
 
             try {
-                const { data: posts, error } = await supabase
-                    .from('posts')
-                    .select('id, title, slug, excerpt, category, published_at, thumbnail_url')
-                    .order('published_at', { ascending: false })
-                    .limit(3);
-
-                if (error) throw error;
+                const response = await fetch('/api/posts?limit=3');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const posts = await response.json();
 
                 if (!posts || posts.length === 0) {
                     grid.innerHTML = '<p class="no-articles">No articles yet. Check back soon!</p>';
@@ -275,7 +252,6 @@
         loadRecentArticles();
 
         // --- INSTAGRAM REELS CONFIGURATION ---
-        // To update your reels, just swap the links and captions below!
         const REELS_DATA = [
             {
                 url: "https://www.instagram.com/aswinonfinance/reel/DUDLbarCPsU/",
@@ -313,6 +289,9 @@
 
         loadInstagramReels();
     </script>
+
+    <!-- Analytics (deferred — not render-blocking) -->
+    <script src="/js/analytics.js" defer></script>
 </body>
 
 </html>

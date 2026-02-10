@@ -7,28 +7,13 @@
     <title>Blog Post | Aswin on Finance</title>
     <meta name="description" content="Financial insights for NRIs.">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/Outfit-Variable.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Shared Styles -->
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="post.css">
-
-    <!-- PostHog Analytics -->
-    <script>
-        !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s.api_host + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
-        posthog.init('phc_7EZHmBCGTKA2i60owBepTfAPT2IhaHhlXTMFXlNcnCY', {
-            api_host: 'https://us.i.posthog.com',
-            loaded: function (posthog) {
-                posthog.register({
-                    'environment': (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'local' : 'production'
-                });
-            }
-        })
-    </script>
 </head>
 
 <body>
@@ -67,9 +52,7 @@
     <!-- Audio Narrator (Optional, logic needs to be updated for dynamic content if used) -->
     <!-- <script src="../audio-narrator.js"></script> -->
 
-    <script type="module">
-        import { supabase } from '../js/supabase-client.js';
-
+    <script>
         async function loadPost() {
             const container = document.getElementById('article-container');
             const params = new URLSearchParams(window.location.search);
@@ -82,20 +65,10 @@
             }
 
             try {
-                let query = supabase.from('posts').select('*').limit(1);
-
-                if (slug) {
-                    query = query.eq('slug', slug);
-                } else {
-                    query = query.eq('id', id);
-                }
-
-                const { data: posts, error } = await query;
-
-                if (error) throw error;
-                if (!posts || posts.length === 0) throw new Error('Post not found');
-
-                const post = posts[0];
+                const param = slug ? `slug=${encodeURIComponent(slug)}` : `id=${encodeURIComponent(id)}`;
+                const response = await fetch(`/api/post?${param}`);
+                if (!response.ok) throw new Error('Post not found');
+                const post = await response.json();
 
                 // Update Page Title
                 document.title = `${post.title} | Aswin on Finance`;
@@ -148,6 +121,9 @@
 
         loadPost();
     </script>
+
+    <!-- Analytics (deferred — not render-blocking) -->
+    <script src="/js/analytics.js" defer></script>
 </body>
 
 </html>

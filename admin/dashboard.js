@@ -186,6 +186,20 @@ async function createPost() {
 
         if (error) throw error;
 
+        // Purge edge cache so the new post is immediately visible
+        try {
+            await fetch('/api/purge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env?.VITE_PURGE_SECRET || ''}`
+                },
+                body: JSON.stringify({ slug })
+            });
+        } catch (purgeErr) {
+            console.warn('Cache purge failed (non-critical):', purgeErr);
+        }
+
         alert('Post published successfully!');
         elements.postTitle.value = '';
         elements.postContent.value = '';

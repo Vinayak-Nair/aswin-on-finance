@@ -1,0 +1,43 @@
+# Cloudflare Pages custom headers
+# Replaces netlify.toml cache rules
+
+# Immutable caching for static assets (1 year)
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/blog/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+# Audio
+/*.mp3
+  Cache-Control: public, max-age=31536000, immutable
+
+# Font files at any path
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages — always revalidate to pick up new content
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate

@@ -5,6 +5,17 @@
  * Import this file FIRST in every HTML page.
  */
 
+/* ========================================
+   Self-hosted Outfit Font (Variable)
+   ======================================== */
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/Outfit-Variable.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     /* ========================================
      Colors - Primary Palette
